@@ -1,0 +1,265 @@
+﻿
+
+.b{
+    background-color:#00ccff;
+transition: background-color 0.3s ease;
+	border-radius: 4px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    float: left;
+    width:16.66%;
+
+    
+}
+.b:hover {
+	 background-color: #466d78;
+transition: background-color 0.3s ease;
+
+  
+}
+
+
+input[type="submit"].b1{
+    background-color:#00ccff;
+    border: 1px solid black;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    float: right;
+	padding: 10px 16px;
+}
+
+input[type="submit"].b1:hover{
+	background-color:white;
+	color:#00ccff;
+}
+
+body {
+   background:linear-gradient(to bottom, #0ff5f5, #f7c95c);
+}
+
+.row {
+    height: 30px;
+    width: 32%;
+    color: white;
+    background: linear-gradient(to bottom, #0ff5f5, #f7c95c); 
+    border: transparent;
+    font-family: "red-serif", Georgia;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+}
+
+.gridview{
+    width:100%;
+    height:100%;
+    padding-top:20%;
+	border:5px;
+	
+}
+
+.gridview1{
+    width:60%;
+    height:80%;
+    padding-top:20%;
+	
+}
+
+
+.header{
+    color:solid black;
+    
+    font-size:15px;
+     padding: 5px 10px;
+  background: linear-gradient(to right, #E9E9E9, #ffffff);
+    height:35px;
+
+}
+
+.button {
+ background-color: #00ccff;
+  transition: background-color 0.3s ease;
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    
+
+}
+.button3 {
+transition: background-color 0.3s ease;
+	background-color: #3DFF33;
+	border-radius: 50%;
+	border:transparent;
+	color:#2c3338;
+	outline-style:none;
+
+}
+
+.button3:hover {
+transition: background-color 0.3s ease;
+	background-color:white;
+	color:#2c3338;
+
+	}
+	
+
+.button2 {
+transition: background-color 0.3s ease;
+	background-color: #3DFF33;
+	border-radius: 4px;
+
+}
+
+.b4{
+transition: background-color 0.3s ease;
+    background-color:#00ccff;
+	border-radius: 4px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    float: center;
+    width:16.66%;
+
+    
+}
+.b4:hover {
+transition: background-color 0.3s ease;
+	 background-color: #466d78;
+  color: white;
+
+}
+
+@media screen and (max-width: 768px) {
+  .b, .b4 {
+    width: 100%;
+    float: none;
+  }
+}
+
+.hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.form__field {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.form__input {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+		  outline:none;
+		  
+}
+
+.form input[type="password"], .form input[type="text"], .form input[type="submit"] {
+  width: 100%;
+  background-color:#595959;
+  outline:none;
+  
+  }
+  
+  [class*="fontawesome-"]:before {
+  font-family: 'FontAwesome', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  
+}
+
+.dropbtn {
+    background-color:#00ccff;
+    text-align: center;
+    text-decoration: none;
+	display: inline-block;
+    color: white;
+    padding: 10px 16px;
+    font-size: 16px;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #e6e6e6}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3DFF33;
+}
+
+.text-slide {
+  transition: transform 0.2s ease;
+}
+
+.text-slide:hover {
+  transform: translateX(5px);
+}
+
+
+.centered-link {
+  text-align: center;
+}
+
+.phone-image {
+    width: 50px; 
+    height: 50px;
+}
+
+.custom-link {
+    font-size: 20px;
+    color: blue;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.custom-link:hover {
+    color: red;
+}

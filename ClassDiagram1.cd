@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access">
+  <Class Name="OFOS.Add_items" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAgEIAAAEAAAAAgAAgQIAAQQAAAAAAAAAIAAgE=</HashCode>
+      <FileName>Add_items.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OFOS.Admin_Login" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAABAAAAAAAAAAAAAgIgBAAAAAIAAgAAIAAAA=</HashCode>
+      <FileName>Admin_Login.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OFOS.Admin_tasks" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAQIAAAAAAAAAAAAAIAAgA=</HashCode>
+      <FileName>Admin_Tasks.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OFOS.AdminSearch" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAEABAIAQAAIACQIAQAAAEAAAAAAAIkSgA=</HashCode>
+      <FileName>AdminSearch.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OFOS.COD" Collapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAABAEAAgAEAACAAAABQAIQAYIAAABQIgAAIAIgE=</HashCode>
+      <FileName>COD_Delivery.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OFOS.Feedback" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAIAQQAAAANRAAAAIAIAg=</HashCode>
+      <FileName>Feedback.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OFOS.Final" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAQAAAAEEAAAAAAAAAAiAAAAIAARAAAABQAAAAIAIAA=</HashCode>
+      <FileName>Final.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OFOS.FoodItems" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EBQAA4AAEAgAACYAAAARAAADJAABAAAG4QIgQEICIAA=</HashCode>
+      <FileName>FoodItems.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OFOS.Login" Collapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABQACEAAERAiACAAAAgAABAIKhAgAAAIYAEACEMAIgA=</HashCode>
+      <FileName>Login.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OFOS.Manage_COD" Collapsed="true">
+    <Position X="7.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAgQIAAQQAAAAAAAAAIAAgA=</HashCode>
+      <FileName>Manage_COD.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OFOS.Modify" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAQIAAQAAAAAAAAAAIAAgA=</HashCode>
+      <FileName>Modify.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OFOS.MyOrder" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgEABAEAAAAAAAABgAIAAQYCEABQAgAAIAIAA=</HashCode>
+      <FileName>MyOrder.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OFOS.WebForm2" Collapsed="true">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAEAAgAEAAAAAAABwAIAAAYAAACAAAAAIAAgA=</HashCode>
+      <FileName>OnlineTrans.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OFOS.WebForm1" Collapsed="true">
+    <Position X="2.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgEAAAAAAAAAAAABgAIAAQYCAABQAgAAIAIAA=</HashCode>
+      <FileName>Payment.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OFOS.Registration" Collapsed="true">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAACABAEQAiAAACAAgAAAAQYgAAACAIYAEQAAIAIiA=</HashCode>
+      <FileName>Registration.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OFOS.Review_fb" Collapsed="true">
+    <Position X="7.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAQIAAQAAAAAAAAAAIAAgA=</HashCode>
+      <FileName>Review_fb.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OFOS.Update_Menu" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAABgQIAAAYAAAAAAAAAIAAgA=</HashCode>
+      <FileName>Update_Menu.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DemoPro.MyAccount" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAYIKAAAAAAIAAAACBAAQAAAAIAAAA=</HashCode>
+      <FileName>MyAccount.aspx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
