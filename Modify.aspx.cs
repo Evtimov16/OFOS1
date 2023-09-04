@@ -16,7 +16,11 @@ namespace OFOS
                 Response.Redirect("Admin_Login.aspx?You need to login first");
             }
 
-
+            if (!IsPostBack)
+            {
+                // Задайте DataKeyNames за GridView
+                GridView1.DataKeyNames = new string[] { "Item_no" };
+            }
 
         }
 
@@ -134,37 +138,78 @@ namespace OFOS
             chkIsActive.Checked = isActive;
         }
 
-        protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
-        {
+       // protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
+       // {
             // Получете Item_no от DataKeys
-            int itemNo = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Value);
+        //    int itemNo = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Value);
 
             // Намерете CheckBox контрола
-            CheckBox chkIsActive = GridView1.Rows[e.RowIndex].FindControl("chkIsActive") as CheckBox;
+         //   CheckBox chkIsActive = GridView1.Rows[e.RowIndex].FindControl("chkIsActive") as CheckBox;
+//
+          //  if (chkIsActive != null)
+          //  {
+          //      bool isActive = chkIsActive.Checked;
 
-            if (chkIsActive != null)
+           //     string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True";
+
+            //    using (SqlConnection connection = new SqlConnection(constr))
+              //  {
+                  //  connection.Open();
+
+                 //   string updateCommand = "UPDATE Item_Master SET IsActive = @IsActive WHERE Item_no = @Item_no";
+
+                //    using (SqlCommand cmd = new SqlCommand(updateCommand, connection))
+                  //  {
+                  //      cmd.Parameters.AddWithValue("@IsActive", isActive);
+                  //      cmd.Parameters.AddWithValue("@Item_no", itemNo);
+                  //
+                   //     cmd.ExecuteNonQuery();
+                  //  }
+               // }
+           // }
+       // }
+        protected void SqlDataSource1_Updating(object sender, SqlDataSourceCommandEventArgs e)
+        {
+            // Извлечете стойности от параметрите
+            int itemNo = (int)e.Command.Parameters["@Item_no"].Value;
+            string item_name = e.Command.Parameters["@Item_name"].Value.ToString();
+            decimal price = (decimal)e.Command.Parameters["@Price"].Value;
+            string description = e.Command.Parameters["@Description"].Value.ToString();
+            string image_url = e.Command.Parameters["@Image_url"].Value.ToString();
+            string type = e.Command.Parameters["@Type"].Value.ToString();
+            bool isActive = false;
+            if (e.Command.Parameters.Contains("@IsActive"))
             {
-                bool isActive = chkIsActive.Checked;
+                
+                isActive = (bool)e.Command.Parameters["@IsActive"].Value;
+               
+            }
+            // Променете стойността на isActive спрямо текущата стойност в базата данни
+            // Например, ако е true, направете го false и обратно
+            isActive = !isActive;
 
-                string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True";
+            // Обновете параметъра @IsActive с новата стойност
+            e.Command.Parameters["@IsActive"].Value = isActive;
 
-                using (SqlConnection connection = new SqlConnection(constr))
+            // Обновете записа в базата данни
+            string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True";
+            using (SqlConnection connection = new SqlConnection(constr))
+            {
+                connection.Open();
+                string updateCommand = "UPDATE [Item_Master] SET Item_name=@Item_name, Price=@Price, Description=@Description, Image_url=@Image_url, Type=@Type, IsActive=@IsActive WHERE Item_no=@Item_no";
+                using (SqlCommand cmd = new SqlCommand(updateCommand, connection))
                 {
-                    connection.Open();
-
-                    string updateCommand = "UPDATE Item_Master SET IsActive = @IsActive WHERE Item_no = @Item_no";
-
-                    using (SqlCommand cmd = new SqlCommand(updateCommand, connection))
-                    {
-                        cmd.Parameters.AddWithValue("@IsActive", isActive);
-                        cmd.Parameters.AddWithValue("@Item_no", itemNo);
-
-                        cmd.ExecuteNonQuery();
-                    }
+                    cmd.Parameters.AddWithValue("@Item_name", item_name);
+                    cmd.Parameters.AddWithValue("@Price", price);
+                    cmd.Parameters.AddWithValue("@Description", description);
+                    cmd.Parameters.AddWithValue("@Image_url", image_url);
+                    cmd.Parameters.AddWithValue("@Type", type);
+                    cmd.Parameters.AddWithValue("@IsActive", isActive);
+                    cmd.Parameters.AddWithValue("@Item_no", itemNo);
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
-
 
     }
 }

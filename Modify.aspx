@@ -94,44 +94,47 @@
             &nbsp;</p>
         <p>
             &nbsp;</p>
-                <asp:GridView ID="GridView1" runat="server" CssClass="table"  AutoGenerateColumns="False" 
-            DataSourceID="SqlDataSource1" DataKeyNames="Item_no" AllowPaging="true" PageSize="9" 
-            HeaderStyle-ForeColor="#3DFF33" CellSpacing="10" CellPadding="12" 
-            PagerStyle-CssClass="gridViewPager" PagerStyle-HorizontalAlign="Center" >
-            <Columns>
-                <asp:BoundField DataField="Item_no" HeaderText="ITEM NO" ReadOnly="True" SortExpression="Item_no" />
-                <asp:BoundField DataField="Item_name" HeaderText="ITEM NAME" SortExpression="Item_name" />
-                <asp:BoundField DataField="Price" HeaderText="PRICE" SortExpression="Price" />
-                <asp:BoundField DataField="Type" HeaderText="TYPE" SortExpression="Type" />
-                <asp:BoundField DataField="Description" HeaderText="DESCRIPTION" SortExpression="Description" />
-                <asp:BoundField DataField="Image_url" HeaderText="IMAGE URL"  SortExpression="Image_url"/>
-                <asp:TemplateField DataField ="tmp" HeaderText="IS ACTIVE">
+                            <asp:GridView ID="GridView1" runat="server" CssClass="table" AutoGenerateColumns="False"
+                DataSourceID="SqlDataSource1" DataKeyNames="Item_no" AllowPaging="true" PageSize="9"
+                HeaderStyle-ForeColor="#3DFF33" CellSpacing="10" CellPadding="12" PagerStyle-CssClass="gridViewPager"
+                PagerStyle-HorizontalAlign="Center">
+                <Columns>
+                    <asp:BoundField DataField="Item_no" HeaderText="ITEM NO" ReadOnly="True" SortExpression="Item_no" />
+                    <asp:BoundField DataField="Item_name" HeaderText="ITEM NAME" SortExpression="Item_name" />
+                    <asp:BoundField DataField="Price" HeaderText="PRICE" SortExpression="Price" />
+                    <asp:BoundField DataField="Type" HeaderText="TYPE" SortExpression="Type" />
+                    <asp:BoundField DataField="Description" HeaderText="DESCRIPTION" SortExpression="Description" />
+                    <asp:BoundField DataField="Image_url" HeaderText="IMAGE URL" SortExpression="Image_url" />
+                    <asp:TemplateField HeaderText="ACTIVE">
+                        <ItemTemplate>
+                            <asp:CheckBox ID="chkActive" runat="server" Checked='<%# Eval("IsActive") %>' />
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:CommandField ShowEditButton="true" ShowDeleteButton="true" />
+                </Columns>
+            </asp:GridView>
+ 
+             <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+                    ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True" 
+                    SelectCommand="SELECT * FROM [Item_Master]" 
+                    UpdateCommand="UPDATE [Item_Master] 
+                        SET Item_name = @Item_name, Price = @Price, Description = @Description, 
+                        Image_url = @Image_url, Type = @Type, IsActive = @IsActive 
+                        WHERE Item_no = @Item_no"
+                    OnUpdating="SqlDataSource1_Updating">
+                    <UpdateParameters>
+                        <asp:Parameter Name="Item_name" Type="String" />
+                        <asp:Parameter Name="Price" Type="Decimal" />
+                        <asp:Parameter Name="Description" Type="String" />
+                        <asp:Parameter Name="Image_url" Type="String" />
+                        <asp:Parameter Name="Type" Type="String" />
+                        <asp:Parameter Name="IsActive" Type="Boolean" />
+                        <asp:Parameter Name="Item_no" Type="Int32" />
+                    </UpdateParameters>
+                </asp:SqlDataSource>
 
-                    <ItemTemplate>
-                        <asp:CheckBox ID="chkIsActive" runat="server" Checked='<%# Eval("IsActive") != DBNull.Value ? Convert.ToBoolean(Eval("IsActive")) : false %>' 
-                            AutoPostBack="true" />
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:CommandField ShowEditButton="true" ShowDeleteButton="true" />
-            </Columns>
-        </asp:GridView>  
-        
-        <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
-            ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True" 
-            SelectCommand="SELECT * FROM [Item_Master]" 
-            UpdateCommand="UPDATE [Item_Master] SET Item_name=@Item_name, Price=@Price, Description=@Description, Image_url=@Image_url, Type=@Type, IsActive=@tmp.chkIsActive.Checked WHERE Item_no=@Item_no" 
-            DeleteCommand="UPDATE [Item_Master] SET IsActive=0 WHERE Item_no=@Item_no">
-           <UpdateParameters>
-                <asp:Parameter Name="Item_name" Type="String" />
-                <asp:Parameter Name="Price" Type="Decimal" />
-                   <asp:Parameter Name="Description" Type="String" />
-                    <asp:Parameter Name="Image_url" Type="String" />
-                  <asp:Parameter Name="Type" Type="String" />
-             <asp:Parameter Name="IsActive" Type="Boolean" />
-             <asp:Parameter Name="Item_no" Type="Int32" />
-                </UpdateParameters>
 
- </asp:SqlDataSource>
+
 
     </div>
     </form>
