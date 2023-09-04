@@ -42,6 +42,7 @@ namespace OFOS
             {
                 con.Open();
 
+
                 SqlCommand cmd = new SqlCommand("GetOrderInformation", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@city", dropdown_city.SelectedItem.Text);
@@ -72,23 +73,34 @@ namespace OFOS
                     DateTime endDate = startDate.AddDays(1).AddSeconds(-1); // Крайната дата е 23:59:59 на избраната дата
 
                     // Добавете началната и крайната дата към параметрите на командата
-                    cmd.Parameters.AddWithValue("@startDate", startDate);
-                    cmd.Parameters.AddWithValue("@endDate", endDate);
+                    cmd.Parameters.AddWithValue("@date", startDate);
+                    //cmd.Parameters.AddWithValue("@endDate", endDate);
                     Debug.WriteLine("Start Date:" + startDate.ToString("dd.MM.yyyy г. H:mm:ss"));
                     Debug.WriteLine("End Date:" + endDate.ToString("dd.MM.yyyy г. H:mm:ss"));
                 }
                 else
                 {
                     // Ако не е избрана дата, оставете параметрите празни
-                    cmd.Parameters.AddWithValue("@startDate", DBNull.Value);
-                    cmd.Parameters.AddWithValue("@endDate", DBNull.Value);
+                    cmd.Parameters.AddWithValue("@date", DBNull.Value);
+                    //cmd.Parameters.AddWithValue("@endDate", DBNull.Value);
                 }
-                
+                var a = cmd.ExecuteReader();
+                //while (a.Read())
+                //{
+                //    int count = a.VisibleFieldCount;
+                //    for (int i = 0; i < count; i++)
+                //    {
+                //        Debug.WriteLine(a[i]);
+                //    }
+               // }
+                Debug.WriteLine("A=" + a.HasRows);
                 Debug.WriteLine("City:" + dropdown_city);
                 Debug.WriteLine("Password:" + userTypeValue);
                 Debug.WriteLine("Date" + clndr.SelectedDate.ToString("dd.MM.yyyy г. H:mm:ss"));
 
-                gridview_orders.DataSource = cmd.ExecuteReader();
+                
+                
+                gridview_orders.DataSource = a;
                 gridview_orders.DataBind();
                 
             }
@@ -130,7 +142,7 @@ namespace OFOS
                     // Use today's date if no specific date is selected
                     cmd.Parameters.AddWithValue("@selectedDate", DateTime.Today);
                 }
-
+                
                 gridview_orders.DataSource = cmd.ExecuteReader();
                 gridview_orders.DataBind();
                 Debug.WriteLine("PopulateOrdersForToday executed." );

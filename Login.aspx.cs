@@ -110,10 +110,11 @@ namespace OFOS
                 try
                 {
                     con.Open();
-                    string insertSQL = "EXEC Add_UniqueUsername @Username";
+                    string insertSQL = "EXEC Add_UniqueUsername @Username, @Name" ;
                     SqlCommand cmd = new SqlCommand(insertSQL, con);
                     cmd.Parameters.AddWithValue("@Username", "Guest" + System.DateTime.Now.ToString());
-
+                    cmd.Parameters.AddWithValue("@Name", tb_name.Text);
+                   
                     int added;
                     added = cmd.ExecuteNonQuery();
 

@@ -26,48 +26,48 @@ namespace OFOS
             Response.Redirect("~/Admin_Login.aspx");
         }
 
-        protected void chkIsActive_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckBox chk = (CheckBox)sender;
-            GridViewRow row = (GridViewRow)chk.NamingContainer;
-
+       // protected void chkIsActive_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    CheckBox chk = (CheckBox)sender;
+        //    GridViewRow row = (GridViewRow)chk.NamingContainer;
+        //
             // Проверете дали се извършва редакция
-            if (row.RowState == DataControlRowState.Edit)
-            {
-                int itemNo = Convert.ToInt32(GridView1.DataKeys[row.RowIndex].Value);
+         //   if (row.RowState == DataControlRowState.Edit)
+         //   {
+          //      int itemNo = Convert.ToInt32(GridView1.DataKeys[row.RowIndex].Value);
+          //
+          //      Debug.WriteLine("IsActive = " + chk.Checked);
+          //      UpdateItemStatus(itemNo, chk.Checked);
+          //  }
+      //  }
 
-                
-                UpdateItemStatus(itemNo, chk.Checked);
-            }
-        }
-
-        private void UpdateItemStatus(int itemNo, bool isActive)
-        {
+       // private void UpdateItemStatus(int itemNo, bool isActive)
+       // {
             // Вашата логика за обновление на статуса на активност в базата данни тук
-            string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True";
+            //string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True";
 
-            using (SqlConnection con = new SqlConnection(constr))
-            {
-                con.Open();
+            //using (SqlConnection con = new SqlConnection(constr))
+            //{
+             //   con.Open();
+            //
+             //   SqlCommand cmd = new SqlCommand("UPDATE Item_Master SET IsActive = 0 WHERE Item_no = 101", con);
+                //cmd.Parameters.AddWithValue("@Item_no", itemNo);
 
-                SqlCommand cmd = new SqlCommand("UPDATE [Item_Master] SET IsActive=@IsActive WHERE Item_no=@Item_no", con);
-                cmd.Parameters.AddWithValue("@Item_no", itemNo);
-
-                if (isActive)
-                {
-                    cmd.Parameters.AddWithValue("@IsActive", 1); 
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("@IsActive", 0); 
-                }
+               // if (isActive)
+               // {
+                //    cmd.Parameters.AddWithValue("@IsActive", 1); 
+                //}
+                //else
+                //{
+                //    cmd.Parameters.AddWithValue("@IsActive", 0); 
+               // }
                 
-               // SqlParameter isActiveParam = cmd.Parameters.AddWithValue("@IsActive", isActive);
-                //isActiveParam.SqlDbType = SqlDbType.Bit;
+              // SqlParameter isActiveParam = cmd.Parameters.AddWithValue("@IsActive", isActive);
+               //isActiveParam.SqlDbType = SqlDbType.Bit;
 
-                cmd.ExecuteNonQuery();
-            }
-        }
+             //   cmd.ExecuteNonQuery();
+           // }
+       // }
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
@@ -118,30 +118,7 @@ namespace OFOS
             return false;
         }
 
-        protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
-        {
-            
-            int itemNo = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Value);
-
-            
-            CheckBox chkIsActive = (CheckBox)GridView1.Rows[e.RowIndex].FindControl("chkIsActive");
-
-            
-            bool isActive = chkIsActive.Checked;
-
-            string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True";
-            using (SqlConnection connection = new SqlConnection(constr))
-            {
-                connection.Open();
-                string updateCommand = "UPDATE Item_Master SET IsActive = @IsActive WHERE Item_no = @Item_no";
-                SqlCommand cmd = new SqlCommand(updateCommand, connection);
-                cmd.Parameters.AddWithValue("@IsActive", isActive);
-                cmd.Parameters.AddWithValue("@Item_no", itemNo);
-                cmd.ExecuteNonQuery();
-            }
-
-           
-        }
+       
         protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
         {
             // Вземете Item_no на елемента, който се редактира
@@ -156,6 +133,38 @@ namespace OFOS
             // Задайте стойността на CheckBox контрола
             chkIsActive.Checked = isActive;
         }
+
+        protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            // Получете Item_no от DataKeys
+            int itemNo = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Value);
+
+            // Намерете CheckBox контрола
+            CheckBox chkIsActive = GridView1.Rows[e.RowIndex].FindControl("chkIsActive") as CheckBox;
+
+            if (chkIsActive != null)
+            {
+                bool isActive = chkIsActive.Checked;
+
+                string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True";
+
+                using (SqlConnection connection = new SqlConnection(constr))
+                {
+                    connection.Open();
+
+                    string updateCommand = "UPDATE Item_Master SET IsActive = @IsActive WHERE Item_no = @Item_no";
+
+                    using (SqlCommand cmd = new SqlCommand(updateCommand, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@IsActive", isActive);
+                        cmd.Parameters.AddWithValue("@Item_no", itemNo);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
 
     }
 }

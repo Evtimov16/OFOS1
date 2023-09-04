@@ -105,10 +105,11 @@
                 <asp:BoundField DataField="Type" HeaderText="TYPE" SortExpression="Type" />
                 <asp:BoundField DataField="Description" HeaderText="DESCRIPTION" SortExpression="Description" />
                 <asp:BoundField DataField="Image_url" HeaderText="IMAGE URL"  SortExpression="Image_url"/>
-                <asp:TemplateField HeaderText="IS ACTIVE">
+                <asp:TemplateField DataField ="tmp" HeaderText="IS ACTIVE">
+
                     <ItemTemplate>
                         <asp:CheckBox ID="chkIsActive" runat="server" Checked='<%# Eval("IsActive") != DBNull.Value ? Convert.ToBoolean(Eval("IsActive")) : false %>' 
-                            AutoPostBack="true" OnCheckedChanged="chkIsActive_CheckedChanged" />
+                            AutoPostBack="true" />
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:CommandField ShowEditButton="true" ShowDeleteButton="true" />
@@ -118,12 +119,18 @@
         <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
             ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True" 
             SelectCommand="SELECT * FROM [Item_Master]" 
-            UpdateCommand="UPDATE [Item_Master] SET Item_name=@Item_name, Price=@Price, 
-            Description=@Description, Image_url=@Image_url, Type=@Type, IsActive=@IsActive WHERE Item_no=@Item_no" 
+            UpdateCommand="UPDATE [Item_Master] SET Item_name=@Item_name, Price=@Price, Description=@Description, Image_url=@Image_url, Type=@Type, IsActive=@tmp.chkIsActive.Checked WHERE Item_no=@Item_no" 
             DeleteCommand="UPDATE [Item_Master] SET IsActive=0 WHERE Item_no=@Item_no">
-            <UpdateParameters>
-         <asp:Parameter Name="IsActive" Type="Boolean" />
-     </UpdateParameters>
+           <UpdateParameters>
+                <asp:Parameter Name="Item_name" Type="String" />
+                <asp:Parameter Name="Price" Type="Decimal" />
+                   <asp:Parameter Name="Description" Type="String" />
+                    <asp:Parameter Name="Image_url" Type="String" />
+                  <asp:Parameter Name="Type" Type="String" />
+             <asp:Parameter Name="IsActive" Type="Boolean" />
+             <asp:Parameter Name="Item_no" Type="Int32" />
+                </UpdateParameters>
+
  </asp:SqlDataSource>
 
     </div>

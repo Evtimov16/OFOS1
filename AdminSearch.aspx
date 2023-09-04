@@ -91,7 +91,7 @@
                 <br />
                 <asp:Label ID="lbl_city" runat="server" Text="Град:" Font-Bold="true" Font-Size="Medium" Font-Names="Georgia"/>
                 <asp:DropDownList ID="dropdown_city" runat="server" >
-                <asp:ListItem>Бургас</asp:ListItem>
+                <asp:ListItem>Burgas</asp:ListItem>
                 <asp:ListItem>Несебър</asp:ListItem>
                 <asp:ListItem>Варна</asp:ListItem>
                 </asp:DropDownList>
@@ -142,15 +142,7 @@
 		        <asp:GridView ID="gridview_orders" runat="server" AutoGenerateColumns="true" OnRowDataBound="gridview1_RowDataBound"
             HeaderStyle-ForeColor="#3DFF33" CellSpacing="10" CellPadding="12" 
              PagerStyle-CssClass="gridViewPager" PagerStyle-HorizontalAlign="Center" Width="270px" EnableViewState="true" Visible="true" >
-                    <Columns>
-                        
-                       <asp:BoundField DataField="OrderDate" HeaderText="Дата на поръчка" DataFormatString="{0:dd.MM.yyyy г. H:mm:ss}" />
-                        <asp:TemplateField HeaderText="Статус на поръчка">
-                         <ItemTemplate>
-                             <asp:Label ID="lblOrderStatus" runat="server" Text='<%# Eval("OrderStatus") %>' ForeColor='<%# Eval("OrderStatus").ToString() == "Нова" ? System.Drawing.Color.Red : System.Drawing.Color.Black %>' />
-                        </ItemTemplate>
-                        </asp:TemplateField>
-                    </Columns>
+                    
                     <HeaderStyle ForeColor="#3DFF33" />
                     <PagerStyle CssClass="gridViewPager" HorizontalAlign="Center" />
                 </asp:GridView>

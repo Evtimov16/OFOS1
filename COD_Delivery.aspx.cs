@@ -131,25 +131,25 @@ namespace OFOS
 
                         cmd.ExecuteNonQuery();
 
-                        //if (Session["pay"].ToString() == "COD")
-                        //{
-                         //   SqlCommand cmd2 = new SqlCommand("UpdateOrderStatus", con);
-                         //   cmd2.CommandType = CommandType.StoredProcedure;
+                        if (Session["pay"].ToString() == "COD")
+                        {
+                           SqlCommand cmd2 = new SqlCommand("UpdateOrderStatus", con);
+                           cmd2.CommandType = CommandType.StoredProcedure;
 
-                          //  cmd2.Parameters.AddWithValue("@order_id", (int)Session["order_id"]);
-                          //  cmd2.Parameters.AddWithValue("@date", System.DateTime.Now);
+                           cmd2.Parameters.AddWithValue("@order_id", (int)Session["order_id"]);
+                           cmd2.Parameters.AddWithValue("@date", System.DateTime.Now);
 
-                          //  cmd2.ExecuteNonQuery();
+                           cmd2.ExecuteNonQuery();
 
-                          //  SqlCommand cmd3 = new SqlCommand("InsertPayment", con);
-                          //  cmd3.CommandType = CommandType.StoredProcedure;
+                           SqlCommand cmd3 = new SqlCommand("InsertPayment", con);
+                           cmd3.CommandType = CommandType.StoredProcedure;
 
-                           // cmd3.Parameters.AddWithValue("@Order_Id", (int)Session["order_id"]);
-                          //  cmd3.Parameters.AddWithValue("@Mode", "COD");
-                          //  cmd3.Parameters.AddWithValue("@COD_Pay_Status", "Pending");
+                           cmd3.Parameters.AddWithValue("@Order_Id", (int)Session["order_id"]);
+                           cmd3.Parameters.AddWithValue("@Mode", "COD");
+                           cmd3.Parameters.AddWithValue("@COD_Pay_Status", "Pending");
 
-                           // cmd3.ExecuteNonQuery();
-                      //  }
+                           cmd3.ExecuteNonQuery();
+                       }
 
                         Response.Redirect("Final.aspx");
                     }
