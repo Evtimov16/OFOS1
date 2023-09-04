@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, shrink-to-fit=yes, initial-scale=1"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
+    <meta http-equiv="refresh" content="60;url=AdminSearch.aspx" />
     
     <title>Admin Search</title>
 
@@ -42,6 +43,23 @@
 
         
     </style>
+    <style type="text/css">
+    /* Добавете следния стил, за да оцветите новите поръчки в жълто */
+    .new-order {
+        background-color: #FFFFE0; /* Жълт цвят, може да го смените */
+        font-weight: bold; /* Например, да направите текста по-дебел */
+    }
+    
+    th {
+        text-align: center;
+        font-size: medium;
+    }
+
+    gridViewPager td {
+        padding: 0 10px;
+        width: auto;
+    }
+</style>
 
 </head>
 <body>
@@ -91,7 +109,7 @@
                 <br />
                 <asp:Label ID="lbl_city" runat="server" Text="Град:" Font-Bold="true" Font-Size="Medium" Font-Names="Georgia"/>
                 <asp:DropDownList ID="dropdown_city" runat="server" >
-                <asp:ListItem>Burgas</asp:ListItem>
+                <asp:ListItem>Бургас</asp:ListItem>
                 <asp:ListItem>Несебър</asp:ListItem>
                 <asp:ListItem>Варна</asp:ListItem>
                 </asp:DropDownList>
@@ -145,6 +163,14 @@
                     
                     <HeaderStyle ForeColor="#3DFF33" />
                     <PagerStyle CssClass="gridViewPager" HorizontalAlign="Center" />
+                    <Columns>
+                        <asp:TemplateField HeaderText="Details">
+                        <ItemTemplate>
+                         <asp:Button ID="btnViewDetails" runat="server" Text="View Details" OnClick="btnViewDetails_Click" CommandArgument='<%# Eval("Order_Id") %>' />
+                        </ItemTemplate>
+                        </asp:TemplateField>
+                    </Columns>
+
                 </asp:GridView>
                     
 		        <br />

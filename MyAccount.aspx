@@ -78,7 +78,7 @@ textarea {
                         </ItemTemplate>                        
                         <EditItemTemplate>
                             <asp:DropDownList ID="ddlcity" runat="server">
-                                <asp:ListItem>Burgas</asp:ListItem>
+                                <asp:ListItem>Бургас</asp:ListItem>
                                 <asp:ListItem>Варна</asp:ListItem>
                                 <asp:ListItem>Несебър</asp:ListItem>
                             </asp:DropDownList> 

@@ -110,11 +110,15 @@ namespace OFOS
                 try
                 {
                     con.Open();
-                    string insertSQL = "EXEC Add_UniqueUsername @Username, @Name" ;
+                    string insertSQL = "EXEC Add_UniqueUsername @Username, @Name";
                     SqlCommand cmd = new SqlCommand(insertSQL, con);
-                    cmd.Parameters.AddWithValue("@Username", "Guest" + System.DateTime.Now.ToString());
+
+                    
+                    string guestUsername = GenerateUniqueGuestUsername(con);
+
+                    cmd.Parameters.AddWithValue("@Username", guestUsername); // Използвайте генерирания гост потребител
                     cmd.Parameters.AddWithValue("@Name", tb_name.Text);
-                   
+
                     int added;
                     added = cmd.ExecuteNonQuery();
 
@@ -123,7 +127,6 @@ namespace OFOS
                     int x = (int)cmd.ExecuteScalar();
                     Session["customer_id"] = x;
                     Session["user"] = "Guest";
-
                     Session.Timeout = 5;
                     Response.Redirect("~/FoodItems.aspx");
                 }
@@ -132,6 +135,31 @@ namespace OFOS
                     status.Text = err.Message;
                 }
             }
+        }
+        private string GenerateUniqueGuestUsername(SqlConnection con)
+        {
+            int guestNumber = 1; // Започнете от първия гост с номер 1
+            string guestUsername = $"Guest{guestNumber}";
+
+            // Проверете дали потребителското име вече съществува в базата данни
+            while (UsernameExists(con, guestUsername))
+            {
+                guestNumber++; // Ако съществува, преминете към следващия номер
+                guestUsername = $"Guest{guestNumber}";
+            }
+
+            return guestUsername;
+        }
+
+        private bool UsernameExists(SqlConnection con, string username)
+        {
+            string selectSQL = "SELECT COUNT(*) FROM [dbo].[Customers] WHERE Username=@username";
+            SqlCommand cmd = new SqlCommand(selectSQL, con);
+            cmd.Parameters.AddWithValue("@username", username);
+
+            int count = (int)cmd.ExecuteScalar();
+
+            return count > 0;
         }
     }
 }

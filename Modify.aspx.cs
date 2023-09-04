@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Web.UI.WebControls;
 using System.Diagnostics;
 using System.Data;
+using System.Linq;
 
 namespace OFOS
 {
@@ -138,36 +139,36 @@ namespace OFOS
             chkIsActive.Checked = isActive;
         }
 
-       // protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
-       // {
-            // Получете Item_no от DataKeys
+        // protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        // {
+        // Получете Item_no от DataKeys
         //    int itemNo = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Value);
 
-            // Намерете CheckBox контрола
-         //   CheckBox chkIsActive = GridView1.Rows[e.RowIndex].FindControl("chkIsActive") as CheckBox;
-//
-          //  if (chkIsActive != null)
-          //  {
-          //      bool isActive = chkIsActive.Checked;
+        // Намерете CheckBox контрола
+        //   CheckBox chkIsActive = GridView1.Rows[e.RowIndex].FindControl("chkIsActive") as CheckBox;
+        //
+        //  if (chkIsActive != null)
+        //  {
+        //      bool isActive = chkIsActive.Checked;
 
-           //     string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True";
+        //     string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True";
 
-            //    using (SqlConnection connection = new SqlConnection(constr))
-              //  {
-                  //  connection.Open();
+        //    using (SqlConnection connection = new SqlConnection(constr))
+        //  {
+        //  connection.Open();
 
-                 //   string updateCommand = "UPDATE Item_Master SET IsActive = @IsActive WHERE Item_no = @Item_no";
+        //   string updateCommand = "UPDATE Item_Master SET IsActive = @IsActive WHERE Item_no = @Item_no";
 
-                //    using (SqlCommand cmd = new SqlCommand(updateCommand, connection))
-                  //  {
-                  //      cmd.Parameters.AddWithValue("@IsActive", isActive);
-                  //      cmd.Parameters.AddWithValue("@Item_no", itemNo);
-                  //
-                   //     cmd.ExecuteNonQuery();
-                  //  }
-               // }
-           // }
-       // }
+        //    using (SqlCommand cmd = new SqlCommand(updateCommand, connection))
+        //  {
+        //      cmd.Parameters.AddWithValue("@IsActive", isActive);
+        //      cmd.Parameters.AddWithValue("@Item_no", itemNo);
+        //
+        //     cmd.ExecuteNonQuery();
+        //  }
+        // }
+        // }
+        // }
         protected void SqlDataSource1_Updating(object sender, SqlDataSourceCommandEventArgs e)
         {
             // Извлечете стойности от параметрите
@@ -177,19 +178,29 @@ namespace OFOS
             string description = e.Command.Parameters["@Description"].Value.ToString();
             string image_url = e.Command.Parameters["@Image_url"].Value.ToString();
             string type = e.Command.Parameters["@Type"].Value.ToString();
-            bool isActive = false;
-            if (e.Command.Parameters.Contains("@IsActive"))
-            {
-                
-                isActive = (bool)e.Command.Parameters["@IsActive"].Value;
-               
-            }
-            // Променете стойността на isActive спрямо текущата стойност в базата данни
-            // Например, ако е true, направете го false и обратно
-            isActive = !isActive;
 
-            // Обновете параметъра @IsActive с новата стойност
-            e.Command.Parameters["@IsActive"].Value = isActive;
+            bool isActive = false; // Дефинирайте isActive извън блока на условния оператор
+
+            // Намерете GridView реда, който съответства на този елемент
+            GridViewRow gridViewRow = GridView1.Rows.Cast<GridViewRow>().FirstOrDefault(row => row.RowIndex == itemNo);
+
+            if (gridViewRow != null)
+            {
+                CheckBox chkActive = (CheckBox)gridViewRow.FindControl("chkActive");
+
+                // Проверете дали чекбоксът е намерен и извлечете стойността му
+                if (chkActive != null)
+                {
+                    isActive = chkActive.Checked;
+
+                    Debug.WriteLine("1IsActive= " + isActive);
+                    isActive = !isActive;
+
+                    // Обновете параметъра @IsActive с новата стойност
+                    e.Command.Parameters["@IsActive"].Value = isActive;
+                    Debug.WriteLine("2IsActive= " + isActive);
+                }
+            }
 
             // Обновете записа в базата данни
             string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True";
@@ -204,12 +215,22 @@ namespace OFOS
                     cmd.Parameters.AddWithValue("@Description", description);
                     cmd.Parameters.AddWithValue("@Image_url", image_url);
                     cmd.Parameters.AddWithValue("@Type", type);
-                    cmd.Parameters.AddWithValue("@IsActive", isActive);
                     cmd.Parameters.AddWithValue("@Item_no", itemNo);
+
+                    Debug.WriteLine("3IsActive= " + isActive);
+                    cmd.Parameters.AddWithValue("@IsActive", isActive);
+                    Debug.WriteLine("4IsActive= " + isActive);
                     cmd.ExecuteNonQuery();
                 }
             }
+
+            // След като сте обновили данните в базата данни, обновете GridView с актуалните данни
+            Debug.WriteLine("5IsActive= " + isActive);
+            GridView1.DataBind();
         }
+
+
+
 
     }
 }

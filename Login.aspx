@@ -102,7 +102,7 @@
         <tr>
             <td style="text-align:right" class="auto-style1"><asp:Label ID="Label9" runat="server" Text="Град :" ForeColor="white"></asp:Label></td>
             <td class="auto-style1"><asp:DropDownList ID="DropDownList1_city" runat="server" BackColor="#595959" style="margin-left: 0px" Width="164px" Height="44px">
-                <asp:ListItem>Burgas</asp:ListItem>
+                <asp:ListItem>Бургас</asp:ListItem>
                 <asp:ListItem>Несебър</asp:ListItem>
                 <asp:ListItem>Варна</asp:ListItem>
                 </asp:DropDownList></td>

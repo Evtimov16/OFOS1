@@ -80,7 +80,7 @@
                     <p style="margin-left: 40px">
                         CITY :&emsp;&emsp;&emsp;&emsp;&emsp;
                         <asp:DropDownList ID="D_city" runat="server" style="margin-left: 0px" Width="164px" Height="44px" BackColor="#595959">
-                            <asp:ListItem>Burgas</asp:ListItem>
+                            <asp:ListItem>Бургас</asp:ListItem>
                             <asp:ListItem>Варна</asp:ListItem>
                             <asp:ListItem>Несебър</asp:ListItem>
                         </asp:DropDownList>

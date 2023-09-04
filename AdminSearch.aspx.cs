@@ -19,8 +19,16 @@ namespace OFOS
 
             if (!IsPostBack)
             {
+                if (Cache["OrderData"] != null)
+                {
+                    
+                    DataTable orderData = (DataTable)Cache["OrderData"];
+                    gridview_orders.DataSource = orderData;
+                    gridview_orders.DataBind();
+                }
                 dropdown_city.SelectedIndex = 0;
-                ddlUserType.SelectedIndex = 0; // Избира "Всички" като стойност по подразбиране
+                ddlUserType.SelectedIndex = 0; 
+
             }
 
 
@@ -42,67 +50,57 @@ namespace OFOS
             {
                 con.Open();
 
-
                 SqlCommand cmd = new SqlCommand("GetOrderInformation", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@city", dropdown_city.SelectedItem.Text);
-                
 
                 int userTypeValue;
                 if (ddlUserType.SelectedValue == "All")
                 {
-                    // Ако е избрано "Всички", използвайте стойност 2 или друга, която означава "Всички".
                     userTypeValue = 2;
                 }
                 else if (ddlUserType.SelectedValue == "RegisteredUser")
                 {
-                    // Ако е избрано "Регистриран потребител", използвайте стойност 0 или друга, която означава "Регистриран потребител".
                     userTypeValue = 0;
                 }
-                else // ddlUserType.SelectedValue == "Guest"
+                else
                 {
-                    // Ако е избрано "Гост", използвайте стойност 1 или друга, която означава "Гост".
                     userTypeValue = 1;
                 }
+
                 cmd.Parameters.AddWithValue("@passwordType", userTypeValue);
                 if (clndr.SelectedDate.Date != DateTime.MinValue.Date)
                 {
-                    // Изчислете началната и крайната дата и час
                     DateTime selectedDate = clndr.SelectedDate;
-                    DateTime startDate = selectedDate.Date; // Началната дата е 0:00:00 на избраната дата
-                    DateTime endDate = startDate.AddDays(1).AddSeconds(-1); // Крайната дата е 23:59:59 на избраната дата
+                    DateTime startDate = selectedDate.Date;
+                    DateTime endDate = startDate.AddDays(1).AddSeconds(-1);
 
-                    // Добавете началната и крайната дата към параметрите на командата
                     cmd.Parameters.AddWithValue("@date", startDate);
-                    //cmd.Parameters.AddWithValue("@endDate", endDate);
+
                     Debug.WriteLine("Start Date:" + startDate.ToString("dd.MM.yyyy г. H:mm:ss"));
                     Debug.WriteLine("End Date:" + endDate.ToString("dd.MM.yyyy г. H:mm:ss"));
                 }
                 else
                 {
-                    // Ако не е избрана дата, оставете параметрите празни
                     cmd.Parameters.AddWithValue("@date", DBNull.Value);
-                    //cmd.Parameters.AddWithValue("@endDate", DBNull.Value);
                 }
+
                 var a = cmd.ExecuteReader();
-                //while (a.Read())
-                //{
-                //    int count = a.VisibleFieldCount;
-                //    for (int i = 0; i < count; i++)
-                //    {
-                //        Debug.WriteLine(a[i]);
-                //    }
-               // }
+
                 Debug.WriteLine("A=" + a.HasRows);
                 Debug.WriteLine("City:" + dropdown_city);
-                Debug.WriteLine("Password:" + userTypeValue);
+                Debug.WriteLine("Password:");
                 Debug.WriteLine("Date" + clndr.SelectedDate.ToString("dd.MM.yyyy г. H:mm:ss"));
 
-                
-                
-                gridview_orders.DataSource = a;
+                // Зареждане на новите данни и кеширане
+                DataTable newOrderData = new DataTable();
+                newOrderData.Load(a);
+                gridview_orders.DataSource = newOrderData;
                 gridview_orders.DataBind();
-                
+
+                // Кеширане на новите данни за следващите рефрешове
+
+                Cache["OrderData"] = newOrderData;
             }
         }
         protected void clndr_SelectionChanged(object sender, EventArgs e)
@@ -195,7 +193,7 @@ namespace OFOS
 
                 if (orderStatus == "Нова") // Проверете според вашия статус
                 {
-                    e.Row.CssClass = "highlight";
+                    e.Row.CssClass = "new-order";
                 }
             }
             Debug.WriteLine("Error in gridview1_Click: " );
@@ -246,6 +244,40 @@ namespace OFOS
             else // ddlUserType.SelectedValue == "Guest"
             {
                 return 1; // "Гост"
+            }
+        }
+        protected void btnViewDetails_Click(object sender, EventArgs e)
+        {
+            // Получаване на Order_Id от CommandArgument
+            Button btn = (Button)sender;
+            int order_id = Convert.ToInt32(btn.CommandArgument);
+
+            // Извикване на запазената процедура и зареждане на резултата в DataTable
+            DataTable orderDetails = GetOrderDetailsFromDatabase(order_id);
+
+            // Показване на резултата във втория грид
+            gridview_order_details.DataSource = orderDetails;
+            gridview_order_details.DataBind();
+        }
+
+        private DataTable GetOrderDetailsFromDatabase(int order_id)
+        {
+            
+
+            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand cmd = new SqlCommand("GetOrderDetails", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@order_id", order_id);
+
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable orderDetails = new DataTable();
+                adapter.Fill(orderDetails);
+
+                return orderDetails;
             }
         }
     }

@@ -115,23 +115,10 @@
             </asp:GridView>
  
              <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
-                    ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True" 
-                    SelectCommand="SELECT * FROM [Item_Master]" 
-                    UpdateCommand="UPDATE [Item_Master] 
-                        SET Item_name = @Item_name, Price = @Price, Description = @Description, 
-                        Image_url = @Image_url, Type = @Type, IsActive = @IsActive 
-                        WHERE Item_no = @Item_no"
-                    OnUpdating="SqlDataSource1_Updating">
-                    <UpdateParameters>
-                        <asp:Parameter Name="Item_name" Type="String" />
-                        <asp:Parameter Name="Price" Type="Decimal" />
-                        <asp:Parameter Name="Description" Type="String" />
-                        <asp:Parameter Name="Image_url" Type="String" />
-                        <asp:Parameter Name="Type" Type="String" />
-                        <asp:Parameter Name="IsActive" Type="Boolean" />
-                        <asp:Parameter Name="Item_no" Type="Int32" />
-                    </UpdateParameters>
-                </asp:SqlDataSource>
+                ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True" 
+                SelectCommand="SELECT * FROM [Item_Master]" 
+                UpdateCommand="UPDATE [Item_Master] SET Item_name = @Item_name, Price = @Price, Description = @Description, Image_url = @Image_url, Type = @Type, IsActive = @IsActive WHERE Item_no = @Item_no">
+             </asp:SqlDataSource>
 
 
 
