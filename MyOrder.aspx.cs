@@ -18,16 +18,16 @@ namespace OFOS
                 Response.Redirect("FoodItems.aspx");
                 b.Visible = false;
 
+                // Добавете съобщение за редирект
+                Debug.WriteLine("User not logged in. Redirecting to FoodItems.aspx.");
             }
             else
             {
-
                 b.Visible = true;
                 l2.Visible = true;
                 l.Text = Session["user"].ToString();
                 if (Session["user"].ToString() == "Guest")
                 {
-
                     b.Visible = false;
                     b1.Visible = true;
                 }
@@ -37,12 +37,17 @@ namespace OFOS
                     b1.Visible = false;
                 }
 
+                // Добавете съобщение за вход на потребителя
+                Debug.WriteLine($"User '{Session["user"]}' has logged in.");
             }
 
             if (Session["order_id"] == null)
             {
                 lbl.Text = "Все още нямате поръчани неща";
                 Button2.Visible = false;
+
+                // Добавете съобщение за липса на поръчка
+                Debug.WriteLine("User does not have any orders.");
             }
             else
             {
@@ -73,6 +78,9 @@ namespace OFOS
                                 Label1.Text = "Все още нямате поръчани неща";
                                 Button2.Visible = false;
                             }
+
+                            // Добавете съобщение за зареждане на сумата на поръчката
+                            Debug.WriteLine($"Loaded total amount for Order ID {Session["order_id"]}: {Label1.Text}");
                         }
                         catch (Exception err)
                         {
@@ -86,11 +94,17 @@ namespace OFOS
         protected void Button1_Click(object sender, EventArgs e)
         {
             Response.Redirect("FoodItems.aspx");
+
+            // Добавете съобщение за пренасочване към FoodItems.aspx
+            Debug.WriteLine("User is navigating to FoodItems.aspx.");
         }
 
         protected void Button2_Click(object sender, EventArgs e)
         {
             Response.Redirect("Payment.aspx");
+
+            // Добавете съобщение за пренасочване към Payment.aspx
+            Debug.WriteLine("User is navigating to Payment.aspx.");
         }
 
         protected void LogOut_click(object sender, EventArgs e)
@@ -98,6 +112,9 @@ namespace OFOS
             Session.Abandon();
             Session.Clear();
             Response.Redirect("~/FoodItems.aspx");
+
+            // Добавете съобщение за излизане
+            Debug.WriteLine("User has logged out.");
         }
 
         protected void gridorder_RowUpdated(object sender, GridViewUpdatedEventArgs e)
@@ -108,10 +125,7 @@ namespace OFOS
                 int n = Int32.Parse(arg);
                 if (n < 1 || n > 10)
                 {
-                    //Label2.Text = "Invalid Quantity";
                     gridorder.Rows[0].Cells[2].Text = e.OldValues[2].ToString();
-                    //Button1.Enabled = false;
-                    //Button2.Enabled = false;
                     gridorder.DataBind();
                 }
             }
@@ -123,41 +137,31 @@ namespace OFOS
 
         protected void gridorder_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
-
             try
             {
-
                 string arg = e.NewValues[0].ToString();
                 int o;
                 if (!arg.All(char.IsDigit))
                 {
-                    // Label2.Text = "Invalid Quantity";
                     e.Cancel = true;
                     gridorder.Rows[0].Cells[2].Text = e.OldValues[2].ToString();
-
                     gridorder.DataBind();
                     this.Page_Load(sender, e);
-
                 }
                 int n = Int32.Parse(arg);
                 if (n < 1 || n > 10)
                 {
-                    //Label2.Text = "Invalid Quantity";
                     e.Cancel = true;
                     gridorder.Rows[0].Cells[2].Text = e.OldValues[2].ToString();
-
                     gridorder.DataBind();
                 }
             }
             catch (FormatException i)
             {
-                //Label2.Text = "Invalid Quantity";
                 e.Cancel = true;
                 gridorder.Rows[0].Cells[2].Text = e.OldValues[2].ToString();
-
                 gridorder.DataBind();
             }
         }
-
     }
 }

@@ -4,77 +4,48 @@ using System.Linq;
 using System.Web;
 using NUnit.Framework;
 using Moq;
-
+using System.IO;
 
 namespace OFOS
 {
-    public class UserData
+    public class AddItemsTests
     {
-        public string Username { get; set; }
-        public string Email { get; set; }
-    }
-
-    public interface ofos
-    {
-        void AddUser(UserData userData);
-    }
-
-    public class UserManager
-    {
-        private ofos _database;
-
-        public UserManager(ofos database)
+        
+        public void Page_Load_RedirectsToAdminLoginWhenSessionIsNull()
         {
-            _database = database;
+            // Arrange
+            var page = new Add_items();
+            var context = new HttpContext(
+                new HttpRequest("", "http://localhost", ""),
+                new HttpResponse(new StringWriter())
+            );
+            HttpContext.Current = context;
+            context.Session["admin"] = null;
+
+            // Act
+            page.Page_Load(null, EventArgs.Empty);
+
+            // Assert
+            Assert.IsTrue(context.Response.RedirectLocation.Contains("Admin_Login.aspx"));
         }
 
-        public void CreateUser(UserData userData)
+        
+        public void Page_Load_DoesNotRedirectWhenSessionIsNotNull()
         {
-            // Проверки на входните данни
-            if (string.IsNullOrWhiteSpace(userData.Username) || string.IsNullOrWhiteSpace(userData.Email))
-            {
-                throw new ArgumentException("Username и Email са задължителни.");
-            }
+            // Arrange
+            var page = new Add_items();
+            var context = new HttpContext(
+                new HttpRequest("", "http://localhost", ""),
+                new HttpResponse(new StringWriter())
+            );
+            HttpContext.Current = context;
+            context.Session["admin"] = "some_value";
 
-            _database.AddUser(userData);
-        }
-    }
+            // Act
+            page.Page_Load(null, EventArgs.Empty);
 
-    [TestFixture]
-    public class UserManagerTests
-    {
-        [Test]
-        public void TestCreateUserWithValidData()
-        {
-            var databaseMock = new Mock<ofos>();
-            var userManager = new UserManager(databaseMock.Object);
-
-            UserData validUserData = new UserData
-            {
-                Username = "user123",
-                Email = "user@example.com"
-            };
-
-            userManager.CreateUser(validUserData);
-
-            databaseMock.Verify(db => db.AddUser(It.IsAny<UserData>()), Times.Once);
-        }
-
-        [Test]
-        public void TestCreateUserWithMissingData()
-        {
-            var databaseMock = new Mock<ofos>();
-            var userManager = new UserManager(databaseMock.Object);
-
-            UserData invalidUserData = new UserData
-            {
-                Username = "",
-                Email = ""
-            };
-
-            Assert.Throws<ArgumentException>(() => userManager.CreateUser(invalidUserData));
-
-            databaseMock.Verify(db => db.AddUser(It.IsAny<UserData>()), Times.Never);
+            // Assert
+            Assert.IsNull(context.Response.RedirectLocation);
         }
     }
 }

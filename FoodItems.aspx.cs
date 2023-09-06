@@ -13,9 +13,11 @@ namespace OFOS
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Debug.WriteLine("Page_Load started.");
+
             if (Session["order_id"] == null)
             {
-                Session["order_id"] = 0; 
+                Session["order_id"] = 0;
             }
 
             System.DateTime t1 = System.DateTime.Parse("2016/12/12 00:00:00.000");
@@ -30,11 +32,9 @@ namespace OFOS
                 home.Visible = false;
             }
 
-
-
             if (Session["user"] == null)
             {
-
+                Debug.WriteLine("User session is null. Showing 'hl' and 'Register' elements.");
                 hl.Visible = true;
                 Register.Visible = true;
                 b.Visible = false;
@@ -42,6 +42,7 @@ namespace OFOS
             }
             else
             {
+                Debug.WriteLine("User session is not null.");
                 my_order.Visible = true;
                 hl.Visible = false;
                 u.Text = Session["user"].ToString();
@@ -49,6 +50,7 @@ namespace OFOS
 
                 if (Session["user"].ToString() == "Guest")
                 {
+                    Debug.WriteLine("User is a guest. Hiding 'b' element and showing 'b1', 'Label1', and 'Label2' elements.");
                     b.Visible = false;
                     b1.Visible = true;
                     Label1.Visible = true;
@@ -56,12 +58,14 @@ namespace OFOS
                 }
                 else
                 {
+                    Debug.WriteLine("User is not a guest. Showing 'b' and 'dropdown' elements.");
                     b.Visible = true;
                     b1.Visible = false;
                     dropdown.Visible = true;
                 }
             }
 
+            Debug.WriteLine("Page_Load completed.");
         }
 
         protected void LogOut_click(object sender, EventArgs e)
@@ -79,7 +83,7 @@ namespace OFOS
         protected void FilterItemsByType(string itemType)
         {
             pic.Visible = false;
-            string selectSQL = "select Item_no,Item_name,Description,Image_url,Price,Weight from [dbo].[Item_Master] where (Type=@Type)";
+            string selectSQL = "select Item_no,Item_name,Description,Image_url,Price,Weight from [dbo].[Item_Master] where (Type=@Type) and IsActive=1";
             SqlConnection con = new SqlConnection(constr);
             try
             {
@@ -99,6 +103,7 @@ namespace OFOS
             {
                 con.Close();
             }
+            Debug.WriteLine("FilterItemsByType completed.");
         }
 
         protected void Button_soup_onclick(object sender, EventArgs e)
@@ -151,7 +156,6 @@ namespace OFOS
                     SqlCommand checkOrderCmd = new SqlCommand("CheckOpenOrder", con);
                     checkOrderCmd.CommandType = CommandType.StoredProcedure;
                     checkOrderCmd.Parameters.AddWithValue("@Cust_Id", customer_id);
-                    Debug.WriteLine("Before Scalar:" + Session["order_id"]);
                     object resultObject = checkOrderCmd.ExecuteScalar();
                     int result = Convert.ToInt32(resultObject);
 
@@ -185,6 +189,7 @@ namespace OFOS
                     checkExistCmd.Parameters.AddWithValue("@Order_Id", Session["order_id"]);
                     checkExistCmd.Parameters.AddWithValue("@Item_no", gvr.Cells[0].Text);
                     int exist = (int)checkExistCmd.ExecuteScalar();
+                    Debug.WriteLine("CheckOrderItemExistence completed;");
 
                     SqlCommand addOrUpdateCmd = new SqlCommand("AddOrUpdateOrderDetail", con);
                     addOrUpdateCmd.CommandType = CommandType.StoredProcedure;
@@ -193,6 +198,7 @@ namespace OFOS
                     addOrUpdateCmd.Parameters.AddWithValue("@quantity", Convert.ToInt32(temp.Text));
                     addOrUpdateCmd.Parameters.AddWithValue("@price", Convert.ToDecimal(gvr.Cells[4].Text));
                     addOrUpdateCmd.ExecuteNonQuery();
+                    Debug.WriteLine("AddOrUpdateOrderDetail completed;");
                     Session["order_id"] = Session["order_id"];
 
                     Debug.WriteLine("Generated Order_ID: " + Session["order_id"]);

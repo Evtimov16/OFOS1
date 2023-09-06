@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace OFOS
 {
@@ -10,12 +11,14 @@ namespace OFOS
             if (Session["order_id"] == null)
             {
                 Response.Redirect("FoodItems.aspx");
+                Debug.WriteLine("User does not have an active order. Redirecting to FoodItems.aspx.");
             }
             else
             {
                 if (Session["pay"] == null)
                 {
                     Response.Redirect("FoodItems.aspx?First place the order");
+                    Debug.WriteLine("Payment session variable is not set. Redirecting to FoodItems.aspx.");
                 }
             }
         }
@@ -43,6 +46,7 @@ namespace OFOS
                     if (reader.Read() == false)
                     {
                         Label1.Text = "Invalid details";
+                        Debug.WriteLine("Invalid account details provided.");
                     }
                     else
                     {
@@ -84,16 +88,20 @@ namespace OFOS
                             cmd3.ExecuteNonQuery();
 
                             Response.Redirect("COD_Delivery.aspx");
+
+                            Debug.WriteLine("Transaction Successful. Payment received and order status updated.");
                         }
                         else
                         {
                             Label1.Text = "Transaction cancelled due to insufficient balance.";
+                            Debug.WriteLine("Transaction cancelled due to insufficient balance.");
                         }
                     }
                 }
                 catch (Exception err)
                 {
                     Label1.Text = "Please provide details.";
+                    Debug.WriteLine("Error: " + err.Message);
                 }
             }
         }
@@ -104,6 +112,8 @@ namespace OFOS
             Session["pay"] = null;
             Session["pay"] = "COD";
             Response.Redirect("COD_Delivery.aspx");
+
+            Debug.WriteLine("User selected COD payment method and is navigating to COD_Delivery.aspx.");
         }
     }
 }

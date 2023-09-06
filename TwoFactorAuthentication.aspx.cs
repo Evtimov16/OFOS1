@@ -4,7 +4,6 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Diagnostics;
-
 using System.IO;
 
 namespace OFOS
@@ -13,6 +12,7 @@ namespace OFOS
     {
         protected Label lblMessage;
         string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True";
+
         private string GetSecretKeyForCurrentUser(string username)
         {
             string secretKey = string.Empty;
@@ -40,8 +40,8 @@ namespace OFOS
 
             return secretKey;
         }
-        protected void Page_Load(object sender, EventArgs e)
 
+        protected void Page_Load(object sender, EventArgs e)
         {
             foreach (string key in Session.Keys)
             {
@@ -58,11 +58,12 @@ namespace OFOS
                 lblMessage.Text = "2FA code session is missing or expired. Please login again.";
                 return;
             }
+
             if (!IsPostBack)
             {
                 string username = Session["user"] as string;
                 string secretKey = GetSecretKeyForCurrentUser(username);
-                string uniqueID = secretKey; 
+                string uniqueID = secretKey;
                 Debug.WriteLine($"Username: {username}, Secret Key: {uniqueID}");
                 Debug.WriteLine($"Username: {username}, Secret Key: {UniqueID}");
                 if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(UniqueID))
@@ -93,7 +94,7 @@ namespace OFOS
             string appName = "OnlineFoodApp";
             string accountId = Session["user"] as string;
             string secretKey = GetSecretKeyForCurrentUser(accountId);
-            string uniqueID = secretKey;  
+            string uniqueID = secretKey;
 
             string qrCodeUrl = TwoFactorAuthenticator.GenerateQRCodeUrl(appName, accountId, uniqueID);
 
@@ -126,7 +127,7 @@ namespace OFOS
                 int enteredCode = Convert.ToInt32(tbTwoFactorCode.Text);
 
                 string username = Session["user"] as string;
-                string uniqueID = GetSecretKeyForCurrentUser(username); 
+                string uniqueID = GetSecretKeyForCurrentUser(username);
 
                 bool isCodeValid = TwoFactorAuthenticator.VerifyTwoFactorCode(uniqueID, enteredCode);
 
@@ -141,6 +142,4 @@ namespace OFOS
             }
         }
     }
-
-
 }

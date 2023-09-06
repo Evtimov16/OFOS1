@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Web.UI.WebControls;
 
 namespace OFOS
@@ -22,14 +23,18 @@ namespace OFOS
         }
         protected void Page_Load(object sender, EventArgs e)
         {
+            Debug.WriteLine("Page_Load executed.");
             if (Session["order_id"] == null)
             {
+                Debug.WriteLine("Session['order_id'] is null. Redirecting to FoodItems.aspx.");
                 Response.Redirect("FoodItems.aspx");
             }
             else
             {
+                Debug.WriteLine("Session['order_id'] is not null.");
                 if (Session["pay"] == null)
                 {
+                    Debug.WriteLine("Session['pay'] is null. Redirecting to MyOrder.aspx.");
                     Response.Redirect("MyOrder.aspx?Payment mode needs to be selected");
                 }
             }
@@ -100,6 +105,7 @@ namespace OFOS
                     {
                         Label1.Text = err.ToString();
                     }
+                    Debug.WriteLine("Page_Load completed.");
                 }
             }
         }
@@ -107,6 +113,7 @@ namespace OFOS
 
         protected void Button2_Click(object sender, EventArgs e)
         {
+            Debug.WriteLine("Button2_Click started.");
             string deliveryMethod = RadioButtonList1.SelectedValue;
 
             string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True";
@@ -187,19 +194,24 @@ namespace OFOS
                     }
                 }
             }
+            Debug.WriteLine("Button2_Click completed.");
         }
         protected void RadioButtonList1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            Debug.WriteLine("RadioButtonList1_SelectedIndexChanged started.");
             if (RadioButtonList1.SelectedValue == "Delivery")
             {
+                Debug.WriteLine("RadioButtonList1 selected value is 'Delivery'. Showing DeliveryPanel.");
                 DeliveryPanel.Visible = true;
                 PickupPanel.Visible = false;
             }
             else if (RadioButtonList1.SelectedValue == "Pickup")
             {
+                Debug.WriteLine("RadioButtonList1 selected value is 'Pickup'. Showing PickupPanel.");
                 DeliveryPanel.Visible = false;
                 PickupPanel.Visible = true;
             }
+            Debug.WriteLine("RadioButtonList1_SelectedIndexChanged completed.");
         }
         
 

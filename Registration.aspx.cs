@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 namespace OFOS
 {
@@ -51,21 +52,23 @@ namespace OFOS
 
                         lblStatus.Text = "Registration successful.";
 
-
+                        Debug.WriteLine("Registration successful for user: " + tb_username.Text);
                     }
                 }
                 catch (Exception err)
                 {
                     lblStatus.Text = "Error: " + err.Message;
+                    Debug.WriteLine("Error during registration: " + err.Message);
                 }
             }
         }
+
         private bool IsPasswordStrong(string password)
         {
-            
             string pattern = @"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{:;'?/><,.[-]).{8,16}$";
             return Regex.IsMatch(password, pattern);
         }
+
         protected void LinkButton1_Click(object sender, EventArgs e)
         {
             Response.Redirect("FoodItems.aspx");

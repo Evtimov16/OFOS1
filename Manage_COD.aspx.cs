@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-
+using System.Diagnostics;
 
 namespace OFOS
 {
@@ -18,7 +18,6 @@ namespace OFOS
         protected void LinkButton1_Click(object sender, EventArgs e)
         {
             Session["admin"] = null;
-
             Response.Redirect("Admin_Login.aspx");
         }
 
@@ -69,6 +68,7 @@ namespace OFOS
                 catch (Exception err)
                 {
                     Label1.Text = "Invalid Order Id";
+                    Debug.WriteLine($"Error: {err.Message}");
                 }
             }
         }

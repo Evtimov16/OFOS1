@@ -54,7 +54,6 @@ namespace OFOS
                     cmd.Parameters.AddWithValue("@username", tb_user.Text);
                     cmd.Parameters.AddWithValue("@password", tb_pwd.Text);
 
-                    // Дебъг инструкция: Изведете съставената SQL заявка и параметрите
                     Debug.WriteLine($"SQL Query: {selectSQL}, Parameters: @username = {tb_user.Text}, @password = {tb_pwd.Text}");
 
                     reader = cmd.ExecuteReader();
@@ -70,18 +69,16 @@ namespace OFOS
 
                         Session["2fa_code"] = twoFactorCode;
                         Session["customer_id"] = (int)reader["Cust_Id"];
-                        Session["user"] = tb_user.Text; // Запазваме само потребителското име
+                        Session["user"] = tb_user.Text;
 
-                        // Запазване на потребителското име и секретния ключ в сесията за 5 минути
                         string secretKey = GetSecretKeyForCurrentUser(tb_user.Text);
                         Session["username"] = tb_user.Text;
                         Session["secretKey"] = secretKey;
                         Session.Timeout = SessionTimeoutMinutes;
 
-                        // Дебъг инструкция: Изведете информация за създадените сесионни променливи
                         Debug.WriteLine($"Session created: 2fa_code = {twoFactorCode}, customer_id = {Session["customer_id"]}, user = {Session["user"]}, username = {Session["username"]}, secretKey = {Session["secretKey"]}");
 
-                        Response.Redirect("~/FoodItems.aspx");
+                        Response.Redirect("~/TwoFactorAuthentication.aspx");
                     }
                 }
                 catch (Exception err)

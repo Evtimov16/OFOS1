@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace OFOS
 {
@@ -8,16 +9,12 @@ namespace OFOS
         {
             if (Session["user"] == null)
             {
-
                 b.Visible = false;
                 l2.Visible = false;
                 l.Visible = false;
             }
             else
             {
-
-
-                //b.Visible = true;
                 l2.Visible = true;
                 l.Text = Session["user"].ToString();
                 if (Session["user"].ToString() == "Guest")
@@ -29,11 +26,8 @@ namespace OFOS
                 {
                     b.Visible = true;
                     b1.Visible = false;
-
                 }
             }
-
-
 
             if (Session["order_id"] == null)
             {
@@ -47,36 +41,41 @@ namespace OFOS
                 }
             }
 
-
-
             Label2.Text = Session["total"].ToString();
             if (!IsPostBack)
             {
                 Session["pay"] = null;
             }
+
+            Debug.WriteLine("Debug information for Page_Load event on WebForm1:");
+            Debug.WriteLine($"Session[\"user\"] = {Session["user"]}");
+            Debug.WriteLine($"Session[\"order_id\"] = {Session["order_id"]}");
+            Debug.WriteLine($"Session[\"total\"] = {Session["total"]}");
         }
-
-
-
 
         protected void Button1_Click(object sender, EventArgs e)
         {
             Session["pay"] = "OT";
             Response.Redirect("OnlineTrans.aspx");
 
+            Debug.WriteLine("User selected Online Transaction payment method and is navigating to OnlineTrans.aspx.");
         }
+
         protected void LogOut_click(object sender, EventArgs e)
         {
             Session.Abandon();
             Session.Clear();
             Response.Redirect("~/FoodItems.aspx");
-        }
 
+            Debug.WriteLine("User logged out and is redirected to FoodItems.aspx.");
+        }
 
         protected void Button2_Click(object sender, EventArgs e)
         {
             Session["pay"] = "COD";
             Response.Redirect("COD_Delivery.aspx");
+
+            Debug.WriteLine("User selected COD payment method and is navigating to COD_Delivery.aspx.");
         }
     }
 }

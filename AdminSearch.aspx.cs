@@ -9,9 +9,9 @@ namespace OFOS
 {
     public partial class AdminSearch : System.Web.UI.Page
     {
-
         protected void Page_Load(object sender, EventArgs e)
         {
+            Debug.WriteLine("Page_Load executed.");
             if (Session["admin"] == null)
             {
                 Response.Redirect("Admin_Login.aspx?msg=You need to login first");
@@ -21,18 +21,13 @@ namespace OFOS
             {
                 if (Cache["OrderData"] != null)
                 {
-                    
                     DataTable orderData = (DataTable)Cache["OrderData"];
                     gridview_orders.DataSource = orderData;
                     gridview_orders.DataBind();
                 }
                 dropdown_city.SelectedIndex = 0;
-                ddlUserType.SelectedIndex = 0; 
-
+                ddlUserType.SelectedIndex = 0;
             }
-
-
-            Debug.WriteLine("Page_Load executed.");
         }
 
         protected void LinkButton1_Click(object sender, EventArgs e)
@@ -188,7 +183,6 @@ namespace OFOS
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-               
                 string orderStatus = e.Row.Cells[3].Text;
 
                 if (orderStatus == "Нова") // Проверете според вашия статус
@@ -196,11 +190,12 @@ namespace OFOS
                     e.Row.CssClass = "new-order";
                 }
             }
-            Debug.WriteLine("Error in gridview1_Click: " );
+            Debug.WriteLine("gridview1_RowDataBound executed.");
         }
 
         protected void gridview1_Click(object sender, EventArgs e)
         {
+            Debug.WriteLine("gridview1_Click executed.");
             Button btn = (Button)sender;
             GridViewRow gvr = (GridViewRow)btn.NamingContainer;
 
