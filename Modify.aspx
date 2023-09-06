@@ -109,6 +109,9 @@
                         <ItemTemplate>
                             <asp:CheckBox ID="chkActive" runat="server" Checked='<%# Eval("IsActive") %>' />
                         </ItemTemplate>
+                        <EditItemTemplate>
+                            <asp:CheckBox ID="chkActive" runat="server" Checked='<%# Bind("IsActive") %>' />
+                        </EditItemTemplate>
                     </asp:TemplateField>
                     <asp:CommandField ShowEditButton="true" ShowDeleteButton="true" />
                 </Columns>
@@ -118,6 +121,10 @@
                 ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True" 
                 SelectCommand="SELECT * FROM [Item_Master]" 
                 UpdateCommand="UPDATE [Item_Master] SET Item_name = @Item_name, Price = @Price, Description = @Description, Image_url = @Image_url, Type = @Type, IsActive = @IsActive WHERE Item_no = @Item_no">
+                 <UpdateParameters>
+                     <asp:Parameter Name="IsActive" Type="Boolean" />
+
+                 </UpdateParameters>
              </asp:SqlDataSource>
 
 

@@ -93,7 +93,7 @@ namespace OFOS
             string image_url = e.Command.Parameters["@Image_url"].Value.ToString();
             string type = e.Command.Parameters["@Type"].Value.ToString();
 
-            bool isActive = false; // Дефинирайте isActive извън блока на условния оператор
+            bool isActive = false;
 
             // Намерете GridView реда, който съответства на този елемент
             GridViewRow gridViewRow = GridView1.Rows.Cast<GridViewRow>().FirstOrDefault(row => row.RowIndex == itemNo);
@@ -101,19 +101,10 @@ namespace OFOS
             if (gridViewRow != null)
             {
                 CheckBox chkActive = (CheckBox)gridViewRow.FindControl("chkActive");
-
-                // Проверете дали чекбоксът е намерен и извлечете стойността му
-                if (chkActive != null)
-                {
-                    isActive = chkActive.Checked;
-                    isActive = !isActive;
-
-                    // Debug съобщения за актуалната стойност на isActive
-                    Debug.WriteLine($"Item_no: {itemNo}, IsActive: {isActive}");
-
-                    // Обновете параметъра @IsActive с новата стойност
-                    e.Command.Parameters["@IsActive"].Value = isActive;
-                }
+                isActive = chkActive.Checked;
+                e.Command.Parameters["@IsActive"].Value = isActive;
+                Debug.WriteLine($"Item_no: {itemNo}, IsActive: {isActive}");
+                
             }
 
             // Обновете записа в базата данни
