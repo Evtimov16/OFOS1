@@ -151,7 +151,9 @@
                 <br /><br />
 		        <asp:GridView id="gridview_order_details" Runat="server" AutoGenerateColumns="true"
                     HeaderStyle-ForeColor="#3DFF33" CellSpacing="10" CellPadding="12" 
-             PagerStyle-CssClass="gridViewPager" PagerStyle-HorizontalAlign="Center" Width="270px" EnableViewState="true" Visible="true" />
+             PagerStyle-CssClass="gridViewPager" PagerStyle-HorizontalAlign="Center" Width="540px" EnableViewState="true" Visible="true" />
+                    
+                
                 <br /><br />
 
                 <b>Order Details</b>
@@ -159,7 +161,7 @@
                 
 		        <asp:GridView ID="gridview_orders" runat="server" AutoGenerateColumns="true" OnRowDataBound="gridview1_RowDataBound"
             HeaderStyle-ForeColor="#3DFF33" CellSpacing="10" CellPadding="12" 
-             PagerStyle-CssClass="gridViewPager" PagerStyle-HorizontalAlign="Center" Width="270px" EnableViewState="true" Visible="true" >
+             PagerStyle-CssClass="gridViewPager" PagerStyle-HorizontalAlign="Center" Width="540px" EnableViewState="true" Visible="true" >
                     
                     <HeaderStyle ForeColor="#3DFF33" />
                     <PagerStyle CssClass="gridViewPager" HorizontalAlign="Center" />

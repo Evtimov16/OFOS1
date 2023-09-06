@@ -103,21 +103,21 @@ body {
 
 }
 .button3 {
-transition: background-color 0.3s ease;
-	background-color: #3DFF33;
-	border-radius: 50%;
-	border:transparent;
-	color:#2c3338;
-	outline-style:none;
-
+    transition: background-color 0.3s ease;
+    background-color: #FFA500; /* Жълто-оранжев цвят */
+    border-radius: 50%;
+    border: none;
+    color: #2c3338;
+    outline: none;
+    padding: 10px 16px; /* По-малко падинг, за да се съчетае с по-малките размери на бутона */
+    font-size: 24px; /* Увеличен размер на шрифта */
 }
 
 .button3:hover {
-transition: background-color 0.3s ease;
-	background-color:white;
-	color:#2c3338;
+    background-color: #FFD700; /* Променен цвят при навлизане с мишката */
+    color: #2c3338;
+}
 
-	}
 	
 
 .button2 {

@@ -78,7 +78,7 @@ namespace OFOS
 
                         Debug.WriteLine($"Session created: 2fa_code = {twoFactorCode}, customer_id = {Session["customer_id"]}, user = {Session["user"]}, username = {Session["username"]}, secretKey = {Session["secretKey"]}");
 
-                        Response.Redirect("~/TwoFactorAuthentication.aspx");
+                        Response.Redirect("~/FoodItems.aspx");
                     }
                 }
                 catch (Exception err)
@@ -107,7 +107,7 @@ namespace OFOS
                 try
                 {
                     con.Open();
-                    string insertSQL = "EXEC Add_UniqueUsername @Username, @Name";
+                    string insertSQL = "EXEC Add_UniqueUsername @Username, @Name , @City, @Number";
                     SqlCommand cmd = new SqlCommand(insertSQL, con);
 
                     
@@ -115,6 +115,8 @@ namespace OFOS
 
                     cmd.Parameters.AddWithValue("@Username", guestUsername); // Използвайте генерирания гост потребител
                     cmd.Parameters.AddWithValue("@Name", tb_name.Text);
+                    cmd.Parameters.AddWithValue("@City", DropDownList1_city.Text);
+                    cmd.Parameters.AddWithValue("Number", tb_contact.Text);
 
                     int added;
                     added = cmd.ExecuteNonQuery();

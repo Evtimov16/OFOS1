@@ -62,8 +62,10 @@
                 <asp:TextBox ID="tbTwoFactorCode" runat="server"></asp:TextBox>
             </div>
             <asp:Button ID="btnVerify" runat="server" Text="Verify" OnClick="btnVerify_Click" CssClass="btn-verify" />
-            <div id="divQRCode" runat="server"></div>
-        </div>
+            <div id="divQRCode" runat="server" style="text-align: center;">
+                <img id="qrCodeImage" runat="server" style="max-width: 100%; height: auto;" />
+                </div>
+
     </form>
 </body>
 </html>
