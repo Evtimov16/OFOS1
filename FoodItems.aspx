@@ -4,6 +4,8 @@
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+
+
     <title>Home Page</title>
  
     <link href="StyleSheet1.css" rel="stylesheet" type="text/css" runat="server"  />
@@ -28,7 +30,7 @@
                 </button>
                 <div class="dropdown-content">
                     <a href="MyAccount.aspx">Моят акаунт</a>
-                    <!--<a href="MyOrders.aspx">Моите поръчки</a>-->
+                    
 
                     <a href="Feedback.aspx">Обратна връзка</a>
                 </div>
@@ -105,11 +107,11 @@
     RowStyle-CssClass="row" runat="server" AutoGenerateColumns="false"
     CellSpacing="10" CellPadding="12" HeaderStyle-Font-Bold="true">
     <Columns>
-        <asp:BoundField DataField="Item_no" HeaderText="Номер" ReadOnly="true" SortExpression="Item_no" />
+        <asp:BoundField DataField="Item_no" HeaderText="Номер" ReadOnly="true" SortExpression="Item_no" ItemStyle-CssClass="item_no" HeaderStyle-CssClass="header-hide-mobile" />
         <asp:BoundField DataField="Item_name" HeaderText="Име" ReadOnly="true" SortExpression="Name"  ItemStyle-Font-Bold="true" />
-        <asp:BoundField DataField="Description" HeaderText="Описание"  ReadOnly="true" SortExpression="Description" />
-        <asp:ImageField DataImageUrlField="Image_url" ControlStyle-Width="120" 
-            ControlStyle-Height="120" HeaderText="Снимка"  ItemStyle-HorizontalAlign="Center"/>
+        <asp:BoundField DataField="Description" HeaderText="Описание"  ReadOnly="true" SortExpression="Description" ItemStyle-CssClass="item_no description" HeaderStyle-CssClass="header-hide-mobile" />
+        <asp:ImageField DataImageUrlField="Image_url" ControlStyle-Width="150" 
+            ControlStyle-Height="150" HeaderText="Снимка"  ItemStyle-HorizontalAlign="Center"/>
         <asp:BoundField DataField="Price" HeaderText="Цена" ItemStyle-HorizontalAlign="Center" 
             ReadOnly="true" SortExpression="Price" ItemStyle-Font-Bold="true" ItemStyle-Font-Size="Large"/>
         <asp:TemplateField HeaderText="Грамаж" ItemStyle-HorizontalAlign="Center">
@@ -121,8 +123,8 @@
             <ItemTemplate>
                <asp:TextBox ID="tb_quantity" runat="server" TextMode="number" Width="70" />
         <asp:RangeValidator ID="RangeValidator1" runat="server" 
-            ControlToValidate="tb_quantity" Type="Integer" MinimumValue="1" MaximumValue="10"
-            ErrorMessage="Грешка: Въведете число между 1 и 10." />                                         
+            ControlToValidate="tb_quantity" Type="Integer" MinimumValue="0" MaximumValue="10"
+            ErrorMessage="Грешка: Въведете число между 0 и 10." />                                         
             </ItemTemplate>
         </asp:TemplateField>
         <asp:TemplateField>

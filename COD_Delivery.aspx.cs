@@ -119,7 +119,7 @@ namespace OFOS
             string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True";
             if (deliveryMethod == "Delivery")
             {
-                
+
 
                 using (SqlConnection con = new SqlConnection(constr))
                 {
@@ -140,23 +140,23 @@ namespace OFOS
 
                         if (Session["pay"].ToString() == "COD")
                         {
-                           SqlCommand cmd2 = new SqlCommand("UpdateOrderStatus", con);
-                           cmd2.CommandType = CommandType.StoredProcedure;
+                            SqlCommand cmd2 = new SqlCommand("UpdateOrderStatus", con);
+                            cmd2.CommandType = CommandType.StoredProcedure;
 
-                           cmd2.Parameters.AddWithValue("@order_id", (int)Session["order_id"]);
-                           cmd2.Parameters.AddWithValue("@date", DateTime.Now);
+                            cmd2.Parameters.AddWithValue("@order_id", (int)Session["order_id"]);
+                            cmd2.Parameters.AddWithValue("@date", DateTime.Now);
 
-                           cmd2.ExecuteNonQuery();
+                            cmd2.ExecuteNonQuery();
 
-                           SqlCommand cmd3 = new SqlCommand("InsertPayment", con);
-                           cmd3.CommandType = CommandType.StoredProcedure;
+                            SqlCommand cmd3 = new SqlCommand("InsertPayment", con);
+                            cmd3.CommandType = CommandType.StoredProcedure;
 
-                           cmd3.Parameters.AddWithValue("@Order_Id", (int)Session["order_id"]);
-                           cmd3.Parameters.AddWithValue("@Mode", "COD");
-                           cmd3.Parameters.AddWithValue("@COD_Pay_Status", "Pending");
+                            cmd3.Parameters.AddWithValue("@Order_Id", (int)Session["order_id"]);
+                            cmd3.Parameters.AddWithValue("@Mode", "COD");
+                            cmd3.Parameters.AddWithValue("@COD_Pay_Status", "Pending");
 
-                           cmd3.ExecuteNonQuery();
-                       }
+                            cmd3.ExecuteNonQuery();
+                        }
 
                         Response.Redirect("Final.aspx");
                     }
@@ -168,13 +168,13 @@ namespace OFOS
             }
             else if (deliveryMethod == "Pickup")
             {
-                
+
 
                 using (SqlConnection con = new SqlConnection(constr))
                 {
                     try
                     {
-                       
+
                         con.Open();
                         SqlCommand cmd = new SqlCommand("InsertPickUp", con);
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -234,7 +234,7 @@ namespace OFOS
             }
             Debug.WriteLine("RadioButtonList1_SelectedIndexChanged completed.");
         }
-        
+
 
     }
 }

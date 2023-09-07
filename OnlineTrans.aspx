@@ -13,7 +13,7 @@
     padding: 12px 20px;
     margin: 8px 0;
     box-sizing: border-box;
-    background-color:#595959;
+    background-color:#ffffff;
     border-radius: 1px;
 }
 

@@ -118,27 +118,27 @@ namespace OFOS
             {
                 try
                 {
-                con.Open();
+                    con.Open();
 
-                SqlCommand cmd = new SqlCommand("GetOrderInformation", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@city", dropdown_city.SelectedItem.Text);
+                    SqlCommand cmd = new SqlCommand("GetOrderInformation", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@city", dropdown_city.SelectedItem.Text);
                     cmd.Parameters.AddWithValue("@passwordType", GetPasswordTypeValue());
 
                     if (clndr.SelectedDate.Date != DateTime.MinValue.Date)
-                {
-                    // Use the selected date from the calendar
-                    cmd.Parameters.AddWithValue("@selectedDate", clndr.SelectedDate);
-                }
-                else
-                {
-                    // Use today's date if no specific date is selected
-                    cmd.Parameters.AddWithValue("@selectedDate", DateTime.Today);
-                }
-                
-                gridview_orders.DataSource = cmd.ExecuteReader();
-                gridview_orders.DataBind();
-                Debug.WriteLine("PopulateOrdersForToday executed." );
+                    {
+                        // Use the selected date from the calendar
+                        cmd.Parameters.AddWithValue("@selectedDate", clndr.SelectedDate);
+                    }
+                    else
+                    {
+                        // Use today's date if no specific date is selected
+                        cmd.Parameters.AddWithValue("@selectedDate", DateTime.Today);
+                    }
+
+                    gridview_orders.DataSource = cmd.ExecuteReader();
+                    gridview_orders.DataBind();
+                    Debug.WriteLine("PopulateOrdersForToday executed.");
                 }
                 catch (Exception err)
                 {
@@ -206,7 +206,7 @@ namespace OFOS
                 try
                 {
                     con.Open();
-                    string selectQuery = "GetOrderDetails"; 
+                    string selectQuery = "GetOrderDetails";
                     SqlCommand cmd = new SqlCommand(selectQuery, con);
                     cmd.CommandType = CommandType.StoredProcedure;
 
@@ -257,7 +257,7 @@ namespace OFOS
 
         private DataTable GetOrderDetailsFromDatabase(int order_id)
         {
-            
+
 
             string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True";
             using (SqlConnection connection = new SqlConnection(connectionString))

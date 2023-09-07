@@ -15,7 +15,7 @@ textarea {
     box-sizing: border-box;
     border: 2px;
     border-radius: 1px;
-    background-color:#595959;
+    background-color:#ffffff;
     font-size: 16px;
     resize: none;
 }

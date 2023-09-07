@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Data.SqlClient;
-using System.Web.UI.WebControls;
-using System.Diagnostics;
 using System.Data;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
+using System.Web.UI.WebControls;
 
 namespace OFOS
 {
@@ -104,7 +104,7 @@ namespace OFOS
                 isActive = chkActive.Checked;
                 e.Command.Parameters["@IsActive"].Value = isActive;
                 Debug.WriteLine($"Item_no: {itemNo}, IsActive: {isActive}");
-                
+
             }
 
             // Обновете записа в базата данни

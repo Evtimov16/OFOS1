@@ -110,7 +110,7 @@ namespace OFOS
                     string insertSQL = "EXEC Add_UniqueUsername @Username, @Name , @City, @Number";
                     SqlCommand cmd = new SqlCommand(insertSQL, con);
 
-                    
+
                     string guestUsername = GenerateUniqueGuestUsername(con);
 
                     cmd.Parameters.AddWithValue("@Username", guestUsername); // Използвайте генерирания гост потребител

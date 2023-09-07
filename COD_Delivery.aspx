@@ -12,7 +12,7 @@
             margin: 8px 0;
             box-sizing: border-box;
             border-radius: 1px;
-            background: #595959;
+            background: #ffffff;
         }
     </style>
    <script type="text/javascript">
@@ -79,7 +79,7 @@
                     </p>
                     <p style="margin-left: 40px">
                         CITY :&emsp;&emsp;&emsp;&emsp;&emsp;
-                        <asp:DropDownList ID="D_city" runat="server" style="margin-left: 0px" Width="164px" Height="44px" BackColor="#595959">
+                        <asp:DropDownList ID="D_city" runat="server" style="margin-left: 0px" Width="164px" Height="44px" BackColor="#ffffff">
                             <asp:ListItem>Бургас</asp:ListItem>
                             <asp:ListItem>Варна</asp:ListItem>
                             <asp:ListItem>Несебър</asp:ListItem>
@@ -98,7 +98,7 @@
                     </p>
                     <p style="margin-left: 40px">
     PICKUP TIME :&emsp;&nbsp;
-    <asp:DropDownList ID="TimeDropDownList" runat="server" Width="164px" Height="44px" BackColor="#595959">
+    <asp:DropDownList ID="TimeDropDownList" runat="server" Width="164px" Height="44px" BackColor="#ffffff">
         <asp:ListItem Text="Възможно най-скоро" Value="As soon as possible" />
     </asp:DropDownList>
     <asp:RequiredFieldValidator ID="RequiredFieldValidator9" runat="server" ErrorMessage="Select pickup time"
@@ -116,7 +116,7 @@
                     </p>
                     <p style="margin-left: 40px">
                         CITY :&emsp;&emsp;&emsp;&emsp;&emsp;
-                        <asp:DropDownList ID="DropDownList1" runat="server" style="margin-left: 0px" Width="164px" Height="44px" BackColor="#595959">
+                        <asp:DropDownList ID="DropDownList1" runat="server" style="margin-left: 0px" Width="164px" Height="44px" BackColor="#ffffff">
                             <asp:ListItem>Бургас</asp:ListItem>
                             <asp:ListItem>Варна</asp:ListItem>
                             <asp:ListItem>Несебър</asp:ListItem>
@@ -135,7 +135,7 @@
                     </p>
                   <p style="margin-left: 40px">
     PICKUP TIME :&emsp;&nbsp;
-    <asp:DropDownList ID="PickupTimeDropDownList" runat="server" Width="164px" Height="44px" BackColor="#595959">
+    <asp:DropDownList ID="PickupTimeDropDownList" runat="server" Width="164px" Height="44px" BackColor="#ffffff">
         <asp:ListItem Text="Възможно най-скоро" Value="As soon as possible" />
     </asp:DropDownList>
     <asp:RequiredFieldValidator ID="RequiredFieldValidator10" runat="server" ErrorMessage="Select pickup time"
