@@ -25,21 +25,21 @@ namespace OFOS
         protected void LinkButton1_Click(object sender, EventArgs e)
         {
             Session["admin"] = null;
-            
-           Debug.WriteLine("Admin is logged out.");
+
+            Debug.WriteLine("Admin is logged out.");
             Response.Redirect("Admin_Login.aspx");
         }
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            
+
             Debug.WriteLine("Admin is navigating to Add_items.aspx.");
             Response.Redirect("Add_items.aspx");
         }
 
         protected void Button2_Click(object sender, EventArgs e)
         {
-            
+
             Debug.WriteLine("Admin is navigating to Modify.aspx.");
             Response.Redirect("Modify.aspx");
         }

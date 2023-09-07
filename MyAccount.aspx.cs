@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
-using System.Web.UI.WebControls;
 using System.Diagnostics;
+using System.Web.UI.WebControls;
 
 namespace DemoPro
 {
@@ -42,7 +42,7 @@ namespace DemoPro
                 DropDownList ddlcity = (DropDownList)((DetailsView)sender).FindControl("ddlcity");
                 ddlcity.SelectedValue = row[6].ToString();
 
-                
+
                 Debug.WriteLine($"User '{Session["user"]}' is viewing account details in edit mode.");
             }
         }
@@ -52,7 +52,7 @@ namespace DemoPro
             DropDownList ddlcity = (DropDownList)((DetailsView)sender).FindControl("ddlcity");
             sql1.UpdateParameters["City"].DefaultValue = ddlcity.SelectedValue;
 
-            
+
             Debug.WriteLine($"User '{Session["user"]}' is updating account details.");
         }
     }

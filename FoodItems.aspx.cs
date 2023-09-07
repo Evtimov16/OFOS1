@@ -138,7 +138,7 @@ namespace OFOS
 
         protected void griditem_Click(object sender, EventArgs e)
         {
-            
+
             if (Session["user"] == null)
             {
                 Response.Redirect("~/Login.aspx?msg=Please Log In");
@@ -159,7 +159,7 @@ namespace OFOS
                     object resultObject = checkOrderCmd.ExecuteScalar();
                     int result = Convert.ToInt32(resultObject);
 
-                    
+
                     if ((Session["order_id"] != null && (int)Session["order_id"] == 0) || (int)result != 0)
                     {
                         if (result != 0)
@@ -181,7 +181,7 @@ namespace OFOS
 
                     string itemName = gvr.Cells[1].Text;
                     string weight = gvr.Cells[6].Text;
-                    
+
 
                     // Check if the item is already in the order
                     SqlCommand checkExistCmd = new SqlCommand("CheckOrderItemExistence", con);
