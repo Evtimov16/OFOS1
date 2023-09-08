@@ -156,7 +156,7 @@ transition: background-color 0.3s ease;
 }
 
 @media screen and (max-width: 768px) {
-  .b, .b4, .button, .button3 {
+  .b, .b4, .button, .button3, .b1 {
     width: 100%;
     float: none;
     margin-bottom: 10px;

@@ -5,7 +5,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 
-
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Home Page</title>
  
     <link href="StyleSheet1.css" rel="stylesheet" type="text/css" runat="server"  />
@@ -110,8 +110,8 @@
         <asp:BoundField DataField="Item_no" HeaderText="Номер" ReadOnly="true" SortExpression="Item_no" ItemStyle-CssClass="item_no" HeaderStyle-CssClass="header-hide-mobile" />
         <asp:BoundField DataField="Item_name" HeaderText="Име" ReadOnly="true" SortExpression="Name"  ItemStyle-Font-Bold="true" />
         <asp:BoundField DataField="Description" HeaderText="Описание"  ReadOnly="true" SortExpression="Description" ItemStyle-CssClass="item_no description" HeaderStyle-CssClass="header-hide-mobile" />
-        <asp:ImageField DataImageUrlField="Image_url" ControlStyle-Width="150" 
-            ControlStyle-Height="150" HeaderText="Снимка"  ItemStyle-HorizontalAlign="Center"/>
+        <asp:ImageField DataImageUrlField="Image_url" ControlStyle-Width="120" 
+            ControlStyle-Height="120" HeaderText="Снимка"  ItemStyle-HorizontalAlign="Center"/>
         <asp:BoundField DataField="Price" HeaderText="Цена" ItemStyle-HorizontalAlign="Center" 
             ReadOnly="true" SortExpression="Price" ItemStyle-Font-Bold="true" ItemStyle-Font-Size="Large"/>
         <asp:TemplateField HeaderText="Грамаж" ItemStyle-HorizontalAlign="Center">

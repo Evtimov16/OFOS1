@@ -135,6 +135,7 @@ namespace OFOS
                         cmd.Parameters.AddWithValue("@Street", Street.Text);
                         cmd.Parameters.AddWithValue("@City", D_city.Text);
                         cmd.Parameters.AddWithValue("@Contact_No", Contact.Text);
+                        cmd.Parameters.AddWithValue("@Type", "Доставка");
 
                         cmd.ExecuteNonQuery();
 

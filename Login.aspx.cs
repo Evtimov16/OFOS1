@@ -107,7 +107,7 @@ namespace OFOS
                 try
                 {
                     con.Open();
-                    string insertSQL = "EXEC Add_UniqueUsername @Username, @Name , @City, @Number";
+                    string insertSQL = "EXEC Add_UniqueUsername @Username, @Name , @City, @Number, @House, @Street";
                     SqlCommand cmd = new SqlCommand(insertSQL, con);
 
 
@@ -116,7 +116,9 @@ namespace OFOS
                     cmd.Parameters.AddWithValue("@Username", guestUsername); // Използвайте генерирания гост потребител
                     cmd.Parameters.AddWithValue("@Name", tb_name.Text);
                     cmd.Parameters.AddWithValue("@City", DropDownList1_city.Text);
-                    cmd.Parameters.AddWithValue("Number", tb_contact.Text);
+                    cmd.Parameters.AddWithValue("@Number", tb_contact.Text);
+                    cmd.Parameters.AddWithValue("@House", tb_house.Text);
+                    cmd.Parameters.AddWithValue("@Street", tb_street.Text);
 
                     int added;
                     added = cmd.ExecuteNonQuery();

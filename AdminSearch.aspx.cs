@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 
 
@@ -11,6 +12,7 @@ namespace OFOS
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             Debug.WriteLine("Page_Load executed.");
             if (Session["admin"] == null)
             {
@@ -49,53 +51,92 @@ namespace OFOS
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@city", dropdown_city.SelectedItem.Text);
 
-                int userTypeValue;
                 if (ddlUserType.SelectedValue == "All")
                 {
-                    userTypeValue = 2;
-                }
-                else if (ddlUserType.SelectedValue == "RegisteredUser")
-                {
-                    userTypeValue = 0;
+                    
+                    // За "Всички" използвайте две заявки с различни стойности на @passwordType
+                    SqlCommand cmdAll = new SqlCommand("GetOrderInformation", con);
+                    cmdAll.CommandType = CommandType.StoredProcedure;
+                    cmdAll.Parameters.AddWithValue("@city", dropdown_city.SelectedItem.Text);
+                    cmdAll.Parameters.AddWithValue("@passwordType", 1); // Регистрирани
+                    cmdAll.Parameters.AddWithValue("@date", (clndr.SelectedDate.Date != DateTime.MinValue.Date) ? clndr.SelectedDate.Date : (object)DBNull.Value);
+
+                    SqlCommand cmdGuests = new SqlCommand("GetOrderInformation", con);
+                    cmdGuests.CommandType = CommandType.StoredProcedure;
+                    cmdGuests.Parameters.AddWithValue("@city", dropdown_city.SelectedItem.Text);
+                    cmdGuests.Parameters.AddWithValue("@passwordType", 0); // Гости
+                    cmdGuests.Parameters.AddWithValue("@date", (clndr.SelectedDate.Date != DateTime.MinValue.Date) ? clndr.SelectedDate.Date : (object)DBNull.Value);
+
+                   
+                    var a = cmdAll.ExecuteReader();
+                    DataTable newOrderData = new DataTable();
+                    newOrderData.Load(a);
+
+                    if (ddlUserType.SelectedValue == "All")
+                    {
+                        a.Close(); // Затваряме първия DataReader
+                        var b = cmdGuests.ExecuteReader();
+                        newOrderData.Load(b); // Зареждаме данните от втория DataReader
+                        b.Close(); // Затваряме втория DataReader
+
+                    }
+
+                    gridview_orders.DataSource = newOrderData;
+                    gridview_orders.DataBind();
+
+                    // Кеширане на новите данни за следващите рефрешове
+                    Cache["OrderData"] = newOrderData;
                 }
                 else
                 {
-                    userTypeValue = 1;
+                    int userTypeValue;
+                    if (ddlUserType.SelectedValue == "All")
+                    {
+                        userTypeValue = 2;
+                    }
+                    else if (ddlUserType.SelectedValue == "RegisteredUser")
+                    {
+                        userTypeValue = 1;
+                    }
+                    else
+                    {
+                        userTypeValue = 0;
+                    }
+
+                    cmd.Parameters.AddWithValue("@passwordType", userTypeValue);
+                    if (clndr.SelectedDate.Date != DateTime.MinValue.Date)
+                    {
+                        DateTime selectedDate = clndr.SelectedDate;
+                        DateTime startDate = selectedDate.Date;
+                        DateTime endDate = startDate.AddDays(1).AddSeconds(-1);
+
+                        cmd.Parameters.AddWithValue("@date", startDate);
+
+                        
+                    }
+                    else
+                    {
+                        cmd.Parameters.AddWithValue("@date", DBNull.Value);
+                    }
+
+                    var a = cmd.ExecuteReader();
+
+                    Debug.WriteLine("A=" + a.HasRows);
+                    Debug.WriteLine("City:" + dropdown_city);
+                    Debug.WriteLine("Password:");
+                    Debug.WriteLine("Date" + clndr.SelectedDate.ToString("dd.MM.yyyy г. H:mm:ss"));
+
+                    // Зареждане на новите данни и кеширане
+                    DataTable newOrderData = new DataTable();
+                    newOrderData.Load(a);
+                    
+                    gridview_orders.DataSource = newOrderData;
+                    gridview_orders.DataBind();
+
+                    // Кеширане на новите данни за следващите рефрешове
+
+                    Cache["OrderData"] = newOrderData;
                 }
-
-                cmd.Parameters.AddWithValue("@passwordType", userTypeValue);
-                if (clndr.SelectedDate.Date != DateTime.MinValue.Date)
-                {
-                    DateTime selectedDate = clndr.SelectedDate;
-                    DateTime startDate = selectedDate.Date;
-                    DateTime endDate = startDate.AddDays(1).AddSeconds(-1);
-
-                    cmd.Parameters.AddWithValue("@date", startDate);
-
-                    Debug.WriteLine("Start Date:" + startDate.ToString("dd.MM.yyyy г. H:mm:ss"));
-                    Debug.WriteLine("End Date:" + endDate.ToString("dd.MM.yyyy г. H:mm:ss"));
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("@date", DBNull.Value);
-                }
-
-                var a = cmd.ExecuteReader();
-
-                Debug.WriteLine("A=" + a.HasRows);
-                Debug.WriteLine("City:" + dropdown_city);
-                Debug.WriteLine("Password:");
-                Debug.WriteLine("Date" + clndr.SelectedDate.ToString("dd.MM.yyyy г. H:mm:ss"));
-
-                // Зареждане на новите данни и кеширане
-                DataTable newOrderData = new DataTable();
-                newOrderData.Load(a);
-                gridview_orders.DataSource = newOrderData;
-                gridview_orders.DataBind();
-
-                // Кеширане на новите данни за следващите рефрешове
-
-                Cache["OrderData"] = newOrderData;
             }
         }
         protected void clndr_SelectionChanged(object sender, EventArgs e)
@@ -183,14 +224,16 @@ namespace OFOS
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                string orderStatus = e.Row.Cells[3].Text;
+                int orderID = Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "Order_Id"));
 
-                if (orderStatus == "Нова") // Проверете според вашия статус
-                {
-                    e.Row.CssClass = "new-order";
-                }
+                string Type = GetOrderTypeFromDatabase(orderID);
+
+                Label lblOrderType = (Label)e.Row.FindControl("lblOrderType");
+                lblOrderType.Text = Type;
+
+                Button btnShowAddress = (Button)e.Row.FindControl("btnShowAddress");
+                btnShowAddress.Enabled = (Type == "Доставка");
             }
-            Debug.WriteLine("gridview1_RowDataBound executed.");
         }
 
         protected void gridview1_Click(object sender, EventArgs e)
@@ -206,6 +249,7 @@ namespace OFOS
                 try
                 {
                     con.Open();
+
                     string selectQuery = "GetOrderDetails";
                     SqlCommand cmd = new SqlCommand(selectQuery, con);
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -230,15 +274,15 @@ namespace OFOS
         {
             if (ddlUserType.SelectedValue == "All")
             {
-                return 2; // "Всички"
+                return 2; 
             }
             else if (ddlUserType.SelectedValue == "RegisteredUser")
             {
-                return 0; // "Регистриран потребител"
+                return 1;
             }
-            else // ddlUserType.SelectedValue == "Guest"
+            else 
             {
-                return 1; // "Гост"
+                return 0; 
             }
         }
         protected void btnViewDetails_Click(object sender, EventArgs e)
@@ -274,6 +318,175 @@ namespace OFOS
 
                 return orderDetails;
             }
+        }
+        public string GetOrderTypeFromDatabase(int orderID)
+        {
+            Debug.WriteLine("GetOrderTypeFromDatabase started");
+            string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True";
+            string Type = "";
+
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                try
+                {
+                    con.Open();
+
+                    string query = "SELECT Type FROM Delivery WHERE Order_ID = @OrderID";
+                    Debug.WriteLine("This:" + query);
+                    Debug.WriteLine("OrderID:" + orderID);
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@OrderID", orderID);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                Type = reader["Type"].ToString();
+                            }
+                            
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    
+                    Type = "Грешка: " + ex.Message;
+                }
+            }
+
+            return Type;
+        }
+        protected string GetOrderType(object orderTypeObj)
+        {
+            if (orderTypeObj != null && orderTypeObj != DBNull.Value)
+            {
+                string Type = orderTypeObj.ToString();
+                
+                return Type;
+            }
+            else
+            {
+                return "Неопределен";
+            }
+        }
+
+
+        private string GetCustomerAddressByCustID(int cust_id)
+        {
+            Debug.WriteLine("GetCustomerAddressByCustID started ");
+            string customerAddress = string.Empty;
+            string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True";
+
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                try
+                {
+                    con.Open();
+
+                    string query = "EXEC GetCustomerInfo @Cust_Id";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@Cust_Id", cust_id);
+                        Debug.WriteLine("Cust_ID= " + cust_id);
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        if (reader.Read())
+                        {
+                            // Извличане на стойности от резултатния ред на процедурата GetCustomerInfo
+                            string name = reader["Name"].ToString();
+                            string houseNo = reader["House_no"].ToString();
+                            string street = reader["Street"].ToString();
+                            string contactNo = reader["Contact_no"].ToString();
+
+                            // Сглобете адресната информация в един низ
+                            customerAddress = $"Име: {name}, Номер на къща: {houseNo}, Улица: {street}, Телефон: {contactNo}";
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Обработка на грешките
+                    customerAddress = "Грешка: " + ex.Message;
+                }
+            }
+            Debug.WriteLine("GetCustomerAddressByCustID finished ");
+            Debug.WriteLine("customerAddress= " + customerAddress);
+            return customerAddress;
+        }
+        protected void btnShowAddress_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            int order_id = Convert.ToInt32(btn.CommandArgument);
+            Debug.WriteLine("OrderID= " + order_id);
+
+            // Извикване на новия метод за намиране на cust_id по order_id
+            int cust_id = GetCustomerIDByOrderID(order_id);
+            Debug.WriteLine("Cust_ID= " + cust_id);
+
+            // Извикване на метода, който извлича адреса на клиента по cust_id
+            string customerAddress = GetCustomerAddressByCustID(cust_id);
+            Debug.WriteLine("customerAddress= " + customerAddress);
+
+            if (!string.IsNullOrEmpty(customerAddress))
+            {
+                string[] customerDetails = customerAddress.Split(','); // Разделяме информацията в масив
+
+                if (customerDetails.Length >= 4)
+                {
+                    string name = customerDetails[0];
+                    string houseNo = customerDetails[1];
+                    string street = customerDetails[2];
+                    string contactNo = customerDetails[3];
+
+                    // Сега можете да зададете източника на данни на GridView
+                    gridview_customer_address.DataSource = new[]
+                    {
+            new { Name = name, House_no = houseNo, Street = street, Contact_no = contactNo }
+        };
+                    gridview_customer_address.DataBind();
+                }
+            }
+
+            // Зареждане на адреса в новия GridView
+            //gridview_customer_address.DataSource = new[] { new { Name = name, House_no = houseNo, Street = street, Contact_no = contactNo }};
+           // gridview_customer_address.DataBind();
+
+            // Показване на новия GridView
+            gridview_customer_address.Visible = true;
+        }
+        private int GetCustomerIDByOrderID(int order_id)
+        {
+            int cust_id = 0; // Инициализирайте го с подходяща стойност за липса на данни
+
+            string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True";
+
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                try
+                {
+                    con.Open();
+
+                    string query = "SELECT Cust_ID FROM Orders WHERE Order_ID = @Order_ID";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@Order_ID", order_id);
+                        object result = cmd.ExecuteScalar();
+
+                        if (result != null)
+                        {
+                            cust_id = Convert.ToInt32(result);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Обработка на грешките
+                    Debug.WriteLine("Грешка при извличане на Cust_ID: " + ex.Message);
+                }
+            }
+
+            return cust_id;
         }
     }
 }

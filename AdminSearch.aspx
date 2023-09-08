@@ -99,7 +99,7 @@
              
         <p style="margin-left:950px">
         <asp:LinkButton ID="LinkButton1" runat="server" OnClick="LinkButton1_Click">LogOut</asp:LinkButton>  
-            <asp:Button ID="btnSearch" runat="server" Text="Търсене" OnClick="btns_Click" />
+           
         </p>
              
             <div id="calendar" runat="server">
@@ -120,7 +120,7 @@
                     <asp:ListItem Text="Регистриран потребител" Value="RegisteredUser" />
                     <asp:ListItem Text="Гост" Value="Guest" />
                     </asp:DropDownList>
-
+                 
 
                 <asp:Label ID="lbl_dt" runat="server" Text="Дата:" Font-Bold="true" Font-Size="Medium" Font-Names="Georgia"/>
                 <br />
@@ -141,7 +141,7 @@
                 </asp:Calendar>
                 <asp:LinkButton ID="lnkSelectToday" runat="server" Text="Избери текуща дата" OnClick="lnkSelectToday_Click"></asp:LinkButton>
 
-
+                <asp:Button ID="Button1" runat="server" Text="Търсене" OnClick="btns_Click" />
                
                 <asp:Label ID="status" runat="server" Text="" Visible="false"></asp:Label>
                 <br />
@@ -161,7 +161,7 @@
                 
 		        <asp:GridView ID="gridview_orders" runat="server" AutoGenerateColumns="true" OnRowDataBound="gridview1_RowDataBound"
             HeaderStyle-ForeColor="#3DFF33" CellSpacing="10" CellPadding="12" 
-             PagerStyle-CssClass="gridViewPager" PagerStyle-HorizontalAlign="Center" Width="540px" EnableViewState="true" Visible="true" >
+             PagerStyle-CssClass="gridViewPager" PagerStyle-HorizontalAlign="Center" Width="810px" EnableViewState="true" Visible="true" >
                     
                     <HeaderStyle ForeColor="#3DFF33" />
                     <PagerStyle CssClass="gridViewPager" HorizontalAlign="Center" />
@@ -171,9 +171,31 @@
                          <asp:Button ID="btnViewDetails" runat="server" Text="View Details" OnClick="btnViewDetails_Click" CommandArgument='<%# Eval("Order_Id") %>' />
                         </ItemTemplate>
                         </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Тип на поръчката">
+                            <ItemTemplate>
+                                <asp:Label ID="lblOrderType" runat="server" Text='Type' CommandArgument='<%# Eval("Order_Id") %>' />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+
+                        <asp:TemplateField HeaderText="Доставка">
+                            <ItemTemplate>
+                          <asp:Button ID="btnShowAddress" runat="server" Text="Покажи адрес" OnClick="btnShowAddress_Click" CommandArgument='<%# Eval("Order_Id") %>' Enabled='<%# !string.IsNullOrEmpty(Eval("Order_Id").ToString()) && GetOrderTypeFromDatabase(Convert.ToInt32(Eval("Order_Id").ToString())) == "доставка" %>' />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+
                     </Columns>
 
                 </asp:GridView>
+
+                <b>Address</b>
+
+
+                <asp:GridView ID="gridview_customer_address" runat="server" AutoGenerateColumns="true" HeaderStyle-ForeColor="#3DFF33" CellSpacing="10" CellPadding="12" PagerStyle-CssClass="gridViewPager" PagerStyle-HorizontalAlign="Center" Width="540px" EnableViewState="true" Visible="false">
+                        <HeaderStyle ForeColor="#3DFF33" />
+                        <PagerStyle CssClass="gridViewPager" HorizontalAlign="Center" />
+                        
+                    </asp:GridView>
+
                     
 		        <br />
                 

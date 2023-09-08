@@ -33,15 +33,6 @@ namespace OFOS
         protected global::System.Web.UI.WebControls.LinkButton LinkButton1;
 
         /// <summary>
-        /// btnSearch control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSearch;
-
-        /// <summary>
         /// calendar control.
         /// </summary>
         /// <remarks>
@@ -123,6 +114,15 @@ namespace OFOS
         protected global::System.Web.UI.WebControls.LinkButton lnkSelectToday;
 
         /// <summary>
+        /// Button1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button1;
+
+        /// <summary>
         /// status control.
         /// </summary>
         /// <remarks>
@@ -157,6 +157,15 @@ namespace OFOS
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gridview_orders;
+
+        /// <summary>
+        /// gridview_customer_address control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gridview_customer_address;
 
         /// <summary>
         /// Sts control.
