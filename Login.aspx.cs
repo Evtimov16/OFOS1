@@ -78,7 +78,7 @@ namespace OFOS
 
                         Debug.WriteLine($"Session created: 2fa_code = {twoFactorCode}, customer_id = {Session["customer_id"]}, user = {Session["user"]}, username = {Session["username"]}, secretKey = {Session["secretKey"]}");
 
-                        Response.Redirect("~/FoodItems.aspx");
+                        Response.Redirect("~/TwoFactorAuthentication.aspx");
                     }
                 }
                 catch (Exception err)

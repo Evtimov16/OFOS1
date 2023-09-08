@@ -42,9 +42,10 @@ namespace OFOS
 
             if (Session["pay"].ToString() == "COD")
             {
+                string selectedTime = Session["SelectedTime"] as string;
                 Debug.WriteLine("Payment method is COD.");
-                Label1.Text = "Вашата поръчка беше регистрирана успешно" + "<br/><br/>" + "Ще ви бъде доставена в следващите 30-60 минути." +
-                    "<br/>" + "Моля, пригответе сумата от " + "<b>" + Session["total"] + "</b>" + " лв. за нашия куриер.";
+                Label1.Text = "Вашата поръчка беше регистрирана успешно" + "<br/><br/>" + "Ще ви бъде доставена в " + Session["SelectedTime"] + 
+                "<br/>" + "Моля, пригответе сумата от " + "<b>" + Session["total"] + "</b>" + " лв. ";
             }
             else if (Session["pay"].ToString() == "OT")
             {

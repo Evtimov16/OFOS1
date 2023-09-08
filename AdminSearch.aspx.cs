@@ -54,17 +54,17 @@ namespace OFOS
                 if (ddlUserType.SelectedValue == "All")
                 {
                     
-                    // За "Всички" използвайте две заявки с различни стойности на @passwordType
+                    
                     SqlCommand cmdAll = new SqlCommand("GetOrderInformation", con);
                     cmdAll.CommandType = CommandType.StoredProcedure;
                     cmdAll.Parameters.AddWithValue("@city", dropdown_city.SelectedItem.Text);
-                    cmdAll.Parameters.AddWithValue("@passwordType", 1); // Регистрирани
+                    cmdAll.Parameters.AddWithValue("@passwordType", 1); 
                     cmdAll.Parameters.AddWithValue("@date", (clndr.SelectedDate.Date != DateTime.MinValue.Date) ? clndr.SelectedDate.Date : (object)DBNull.Value);
 
                     SqlCommand cmdGuests = new SqlCommand("GetOrderInformation", con);
                     cmdGuests.CommandType = CommandType.StoredProcedure;
                     cmdGuests.Parameters.AddWithValue("@city", dropdown_city.SelectedItem.Text);
-                    cmdGuests.Parameters.AddWithValue("@passwordType", 0); // Гости
+                    cmdGuests.Parameters.AddWithValue("@passwordType", 0); 
                     cmdGuests.Parameters.AddWithValue("@date", (clndr.SelectedDate.Date != DateTime.MinValue.Date) ? clndr.SelectedDate.Date : (object)DBNull.Value);
 
                    
@@ -74,17 +74,17 @@ namespace OFOS
 
                     if (ddlUserType.SelectedValue == "All")
                     {
-                        a.Close(); // Затваряме първия DataReader
+                        a.Close(); 
                         var b = cmdGuests.ExecuteReader();
-                        newOrderData.Load(b); // Зареждаме данните от втория DataReader
-                        b.Close(); // Затваряме втория DataReader
+                        newOrderData.Load(b); 
+                        b.Close();
 
                     }
 
                     gridview_orders.DataSource = newOrderData;
                     gridview_orders.DataBind();
 
-                    // Кеширане на новите данни за следващите рефрешове
+                   
                     Cache["OrderData"] = newOrderData;
                 }
                 else
@@ -287,14 +287,14 @@ namespace OFOS
         }
         protected void btnViewDetails_Click(object sender, EventArgs e)
         {
-            // Получаване на Order_Id от CommandArgument
+            
             Button btn = (Button)sender;
             int order_id = Convert.ToInt32(btn.CommandArgument);
 
-            // Извикване на запазената процедура и зареждане на резултата в DataTable
+            
             DataTable orderDetails = GetOrderDetailsFromDatabase(order_id);
 
-            // Показване на резултата във втория грид
+            
             gridview_order_details.DataSource = orderDetails;
             gridview_order_details.DataBind();
         }
@@ -357,19 +357,7 @@ namespace OFOS
 
             return Type;
         }
-        protected string GetOrderType(object orderTypeObj)
-        {
-            if (orderTypeObj != null && orderTypeObj != DBNull.Value)
-            {
-                string Type = orderTypeObj.ToString();
-                
-                return Type;
-            }
-            else
-            {
-                return "Неопределен";
-            }
-        }
+        
 
 
         private string GetCustomerAddressByCustID(int cust_id)
@@ -393,20 +381,20 @@ namespace OFOS
 
                         if (reader.Read())
                         {
-                            // Извличане на стойности от резултатния ред на процедурата GetCustomerInfo
+                            
                             string name = reader["Name"].ToString();
                             string houseNo = reader["House_no"].ToString();
                             string street = reader["Street"].ToString();
                             string contactNo = reader["Contact_no"].ToString();
 
-                            // Сглобете адресната информация в един низ
+                            
                             customerAddress = $"Име: {name}, Номер на къща: {houseNo}, Улица: {street}, Телефон: {contactNo}";
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Обработка на грешките
+                    
                     customerAddress = "Грешка: " + ex.Message;
                 }
             }
@@ -420,17 +408,17 @@ namespace OFOS
             int order_id = Convert.ToInt32(btn.CommandArgument);
             Debug.WriteLine("OrderID= " + order_id);
 
-            // Извикване на новия метод за намиране на cust_id по order_id
+            
             int cust_id = GetCustomerIDByOrderID(order_id);
             Debug.WriteLine("Cust_ID= " + cust_id);
 
-            // Извикване на метода, който извлича адреса на клиента по cust_id
+            
             string customerAddress = GetCustomerAddressByCustID(cust_id);
             Debug.WriteLine("customerAddress= " + customerAddress);
 
             if (!string.IsNullOrEmpty(customerAddress))
             {
-                string[] customerDetails = customerAddress.Split(','); // Разделяме информацията в масив
+                string[] customerDetails = customerAddress.Split(','); 
 
                 if (customerDetails.Length >= 4)
                 {
@@ -439,7 +427,7 @@ namespace OFOS
                     string street = customerDetails[2];
                     string contactNo = customerDetails[3];
 
-                    // Сега можете да зададете източника на данни на GridView
+                   
                     gridview_customer_address.DataSource = new[]
                     {
             new { Name = name, House_no = houseNo, Street = street, Contact_no = contactNo }
@@ -448,16 +436,12 @@ namespace OFOS
                 }
             }
 
-            // Зареждане на адреса в новия GridView
-            //gridview_customer_address.DataSource = new[] { new { Name = name, House_no = houseNo, Street = street, Contact_no = contactNo }};
-           // gridview_customer_address.DataBind();
-
-            // Показване на новия GridView
+            
             gridview_customer_address.Visible = true;
         }
         private int GetCustomerIDByOrderID(int order_id)
         {
-            int cust_id = 0; // Инициализирайте го с подходяща стойност за липса на данни
+            int cust_id = 0;
 
             string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True";
 

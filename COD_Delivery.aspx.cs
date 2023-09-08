@@ -8,16 +8,17 @@ namespace OFOS
 {
     public partial class COD : System.Web.UI.Page
     {
+
         private void PopulateTimeDropDowns()
         {
-            DateTime currentTime = DateTime.Now.AddMinutes(30); // Времето след 30 минути от текущия момент
+            DateTime currentTime = DateTime.Now.AddMinutes(30);
             DateTime endTime = DateTime.Parse("9:30 PM");
 
             while (currentTime <= endTime)
             {
                 ListItem timeItem = new ListItem(currentTime.ToString("hh:mm tt"), currentTime.ToString("hh:mm tt"));
                 TimeDropDownList.Items.Add(timeItem);
-                PickupTimeDropDownList.Items.Add(timeItem); // Добавяне на същите опции и в PickupTimeDropDownList
+                PickupTimeDropDownList.Items.Add(timeItem);
                 currentTime = currentTime.AddMinutes(30);
             }
         }
@@ -115,6 +116,8 @@ namespace OFOS
         {
             Debug.WriteLine("Button2_Click started.");
             string deliveryMethod = RadioButtonList1.SelectedValue;
+            string selectedTime = TimeDropDownList.SelectedValue;
+            Session["SelectedTime"] = selectedTime;
 
             string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ofos.mdf;Integrated Security=True";
             if (deliveryMethod == "Delivery")

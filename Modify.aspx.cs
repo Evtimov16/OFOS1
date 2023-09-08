@@ -36,16 +36,16 @@ namespace OFOS
                 CheckBox chkIsActive = (CheckBox)e.Row.FindControl("chkIsActive");
                 if (chkIsActive != null)
                 {
-                    // Покажете CheckBox само при редактиране
+                    
                     if (e.Row.RowState == DataControlRowState.Edit)
                     {
                         chkIsActive.Visible = true;
-                        // Можете да се свържете с базата данни и заредите стойността на IsActive за текущия ред
+                        
                         int itemNo = Convert.ToInt32(GridView1.DataKeys[e.Row.RowIndex].Value);
-                        bool isActive = LoadItemStatusFromDatabase(itemNo); // Заменете с вашата логика за зареждане на статуса
+                        bool isActive = LoadItemStatusFromDatabase(itemNo); 
                         chkIsActive.Checked = isActive;
 
-                        // Debug съобщения за актуалната стойност на IsActive
+                        
                         Debug.WriteLine($"Item_no: {itemNo}, IsActive: {isActive}");
                     }
                     else
@@ -79,7 +79,7 @@ namespace OFOS
                 }
             }
 
-            // Ако не намерите стойност в базата данни, върнете false като стойност по подразбиране
+           
             return false;
         }
 
@@ -127,7 +127,7 @@ namespace OFOS
                 }
             }
 
-            // След като сте обновили данните в базата данни, обновете GridView с актуалните данни
+            
             GridView1.DataBind();
         }
     }
